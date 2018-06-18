@@ -5,13 +5,14 @@
   "author": "Joe McBride <joe@uicraftsman.com>",
   "license": "MIT",
   "scripts": {
-    "start": "./run.sh",
+    "start": "bash ./run.sh",
     "restore": "dotnet restore Example",
     "webpack": "webpack --progress"
   },
   "dependencies": {
     "axios": "^0.17.1",
-    "graphiql": "^0.11.10",
+    "graphiql": "^0.11.11",
+    "graphql": "^0.13.2",
     "react": "^16.2.0",
     "react-dom": "^16.2.0"
   },
