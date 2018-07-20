@@ -9,9 +9,9 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/src/Example/bin/Debug/netcoreapp2.0/Example.dll",
+            "program": "${workspaceFolder}/Example/bin/Debug/netcoreapp2.0/Example.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/src/Example",
+            "cwd": "${workspaceFolder}/Example",
             "console": "internalConsole",
             "stopAtEntry": false,
             "internalConsoleOptions": "openOnSessionStart"
@@ -21,9 +21,9 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/src/Example/bin/Debug/netcoreapp2.0/Example.dll",
+            "program": "${workspaceFolder}/Example/bin/Debug/netcoreapp2.0/Example.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/src/Example",
+            "cwd": "${workspaceFolder}/Example",
             "stopAtEntry": false,
             "internalConsoleOptions": "openOnSessionStart",
             "launchBrowser": {
@@ -34,7 +34,8 @@
                     "args": "/C start ${auto-detect-url}"
                 },
                 "osx": {
-                    "command": "open"
+                    "command": "open",
+                    "args": "http://localhost:3000/ui/playground"
                 },
                 "linux": {
                     "command": "xdg-open"

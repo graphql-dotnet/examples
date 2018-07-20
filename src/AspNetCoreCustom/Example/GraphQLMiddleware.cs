@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 using GraphQL;
 using GraphQL.Http;
 using GraphQL.Types;
+using GraphQL.Validation;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
+using StarWars;
 
 namespace Example
 {
@@ -58,6 +60,7 @@ namespace Example
                 _.OperationName = request.OperationName;
                 _.Inputs = request.Variables.ToInputs();
                 _.UserContext = _settings.BuildUserContext?.Invoke(context);
+                _.ValidationRules = DocumentValidator.CoreRules().Concat(new [] { new InputValidationRule() });
             });
 
             await WriteResponseAsync(context, result);

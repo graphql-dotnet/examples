@@ -14,7 +14,7 @@ namespace StarWars
     ///   }
     /// }
     /// </example>
-    public class StarWarsMutation : ObjectGraphType<object>
+    public class StarWarsMutation : ObjectGraphType
     {
         public StarWarsMutation(StarWarsData data)
         {

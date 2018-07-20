@@ -9,9 +9,9 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/src/Example/bin/Debug/netcoreapp2.0/Example.dll",
+            "program": "${workspaceFolder}/Example/bin/Debug/netcoreapp2.0/Example.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/src/Example",
+            "cwd": "${workspaceFolder}/Example",
             "console": "internalConsole",
             "stopAtEntry": false,
             "internalConsoleOptions": "openOnSessionStart"
@@ -21,9 +21,9 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/src/Example/bin/Debug/netcoreapp2.0/Example.dll",
+            "program": "${workspaceFolder}/Example/bin/Debug/netcoreapp2.0/Example.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/src/Example",
+            "cwd": "${workspaceFolder}/Example",
             "stopAtEntry": false,
             "internalConsoleOptions": "openOnSessionStart",
             "launchBrowser": {
