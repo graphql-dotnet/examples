@@ -8,7 +8,6 @@ using GraphQL.Http;
 using GraphQL.Instrumentation;
 using GraphQL.Types;
 using GraphQL.Validation.Complexity;
-using StarWars;
 
 namespace GraphQL.GraphiQL.Controllers
 {
@@ -22,7 +21,7 @@ namespace GraphQL.GraphiQL.Controllers
         public GraphQLController(
             IDocumentExecuter executer,
             IDocumentWriter writer,
-            StarWarsSchema schema)
+            ISchema schema)
         {
             _executer = executer;
             _writer = writer;

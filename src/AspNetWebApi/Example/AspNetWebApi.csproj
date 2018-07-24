@@ -47,9 +47,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="GraphQL, Version=2.0.0.899, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\GraphQL.2.0.0-alpha-899\lib\net45\GraphQL.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\GraphQL.2.0.0-alpha-951\lib\net45\GraphQL.dll</HintPath>
     </Reference>
     <Reference Include="GraphQL-Parser, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\GraphQL-Parser.3.0.0\lib\net45\GraphQL-Parser.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
