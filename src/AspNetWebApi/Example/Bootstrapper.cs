@@ -1,4 +1,5 @@
 using GraphQL.Http;
+using GraphQL.Types;
 using IoC;
 using StarWars;
 using StarWars.Types;
@@ -27,7 +28,7 @@ namespace GraphQL.GraphiQL
             container.Register<HumanInputType>();
             container.Register<DroidType>();
             container.Register<CharacterInterface>();
-            container.Singleton(new StarWarsSchema(new FuncDependencyResolver(type => container.Get(type))));
+            container.Singleton<ISchema>(new StarWarsSchema(new FuncDependencyResolver(type => container.Get(type))));
 
             return container;
         }

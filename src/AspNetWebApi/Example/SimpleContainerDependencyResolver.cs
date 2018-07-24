@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web.Http.Dependencies;
 using IoC;
@@ -21,8 +22,9 @@ namespace GraphQL.GraphiQL
             {
                 return _container.Get(serviceType);
             }
-            catch (Exception)
+            catch (Exception exc)
             {
+                Debug.WriteLine(exc);
                 return null;
             }
         }
