@@ -1,5 +1,6 @@
 using GraphQL;
 using GraphQL.Http;
+using GraphQL.Server;
 using GraphQL.Server.Transports.AspNetCore;
 using GraphQL.Server.Ui.Playground;
 using GraphQL.Types;
@@ -34,13 +35,12 @@ namespace Example
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-            services.AddGraphQLHttp();
-
-            services.Configure<ExecutionOptions>(options =>
+            services.AddGraphQL(_ =>
             {
-                options.EnableMetrics = true;
-                options.ExposeExceptions = true;
-            });
+                _.EnableMetrics = true;
+                _.ExposeExceptions = true;
+            })
+            .AddUserContextBuilder(httpContext => new GraphQLUserContext { User = httpContext.User });
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
@@ -49,10 +49,13 @@ namespace Example
             app.UseDeveloperExceptionPage();
 
             // add http for Schema at default url /graphql
-            app.UseGraphQLHttp<ISchema>(new GraphQLHttpOptions());
+            app.UseGraphQL<ISchema>("/graphql");
 
             // use graphql-playground at default url /ui/playground
-            app.UseGraphQLPlayground(new GraphQLPlaygroundOptions());
+            app.UseGraphQLPlayground(new GraphQLPlaygroundOptions
+            {
+                Path = "/ui/playground"
+            });
         }
     }
 }
