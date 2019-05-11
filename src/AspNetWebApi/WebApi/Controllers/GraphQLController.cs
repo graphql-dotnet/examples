@@ -16,7 +16,6 @@ namespace GraphQL.GraphiQL.Controllers
         private readonly ISchema _schema;
         private readonly IDocumentExecuter _executer;
         private readonly IDocumentWriter _writer;
-        private readonly IDictionary<string, string> _namedQueries;
 
         public GraphQLController(
             IDocumentExecuter executer,
@@ -26,11 +25,6 @@ namespace GraphQL.GraphiQL.Controllers
             _executer = executer;
             _writer = writer;
             _schema = schema;
-
-            _namedQueries = new Dictionary<string, string>
-            {
-                ["a-query"] = @"query foo { hero { name } }"
-            };
         }
 
         // This will display an example error
@@ -45,11 +39,6 @@ namespace GraphQL.GraphiQL.Controllers
         {
             var inputs = query.Variables.ToInputs();
             var queryToExecute = query.Query;
-
-            if (!string.IsNullOrWhiteSpace(query.NamedQuery))
-            {
-                queryToExecute = _namedQueries[query.NamedQuery];
-            }
 
             var result = await _executer.ExecuteAsync(_ =>
             {
@@ -67,7 +56,7 @@ namespace GraphQL.GraphiQL.Controllers
                 ? HttpStatusCode.BadRequest
                 : HttpStatusCode.OK;
 
-            var json = _writer.Write(result);
+            var json = await _writer.WriteToStringAsync(result);
 
             var response = request.CreateResponse(httpResult);
             response.Content = new StringContent(json, Encoding.UTF8, "application/json");
@@ -79,7 +68,6 @@ namespace GraphQL.GraphiQL.Controllers
     public class GraphQLQuery
     {
         public string OperationName { get; set; }
-        public string NamedQuery { get; set; }
         public string Query { get; set; }
         public Newtonsoft.Json.Linq.JObject Variables { get; set; }
     }

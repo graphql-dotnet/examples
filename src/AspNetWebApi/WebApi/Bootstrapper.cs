@@ -1,10 +1,11 @@
+using GraphQL;
 using GraphQL.Http;
 using GraphQL.Types;
 using IoC;
 using StarWars;
 using StarWars.Types;
 
-namespace GraphQL.GraphiQL
+namespace WebApi
 {
     public class Bootstrapper
     {
