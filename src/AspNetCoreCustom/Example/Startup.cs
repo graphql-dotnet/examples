@@ -40,10 +40,12 @@ namespace Example
 
             app.UseMiddleware<GraphQLMiddleware>(new GraphQLSettings
             {
+                Path = "/api/graphql",
                 BuildUserContext = ctx => new GraphQLUserContext
                 {
                     User = ctx.User
-                }
+                },
+                EnableMetrics = true
             });
 
             app.UseDefaultFiles();

@@ -5,6 +5,7 @@ using System.Net;
 using System.Threading.Tasks;
 using GraphQL;
 using GraphQL.Http;
+using GraphQL.Instrumentation;
 using GraphQL.Types;
 using GraphQL.Validation;
 using Microsoft.AspNetCore.Http;
@@ -61,6 +62,11 @@ namespace Example
                 _.Inputs = request?.Variables.ToInputs();
                 _.UserContext = _settings.BuildUserContext?.Invoke(context);
                 _.ValidationRules = DocumentValidator.CoreRules().Concat(new [] { new InputValidationRule() });
+                _.EnableMetrics = _settings.EnableMetrics;
+                if (_settings.EnableMetrics)
+                {
+                    _.FieldMiddleware.Use<InstrumentFieldsMiddleware>();
+                }
             });
 
             await WriteResponseAsync(context, result);
@@ -68,12 +74,10 @@ namespace Example
 
         private async Task WriteResponseAsync(HttpContext context, ExecutionResult result)
         {
-            var json = _writer.Write(result);
-
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = result.Errors?.Any() == true ? (int)HttpStatusCode.BadRequest : (int)HttpStatusCode.OK;
 
-            await context.Response.WriteAsync(json);
+            await _writer.WriteAsync(context.Response.Body, result);
         }
 
         public static T Deserialize<T>(Stream s)
