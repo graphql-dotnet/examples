@@ -1,6 +1,6 @@
-﻿using System.Web.Mvc;
+using System.Web.Mvc;
 
-namespace GraphQL.GraphiQL
+namespace WebApi
 {
     public class FilterConfig
     {

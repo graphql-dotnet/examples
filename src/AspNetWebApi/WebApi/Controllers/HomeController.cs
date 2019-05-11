@@ -1,6 +1,6 @@
 using System.Web.Mvc;
 
-namespace GraphQL.GraphiQL.Controllers
+namespace WebApi.Controllers
 {
     public class HomeController : Controller
     {

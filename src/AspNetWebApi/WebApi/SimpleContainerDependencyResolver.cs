@@ -5,7 +5,7 @@ using System.Linq;
 using System.Web.Http.Dependencies;
 using IoC;
 
-namespace GraphQL.GraphiQL
+namespace WebApi
 {
     public class SimpleContainerDependencyResolver : System.Web.Http.Dependencies.IDependencyResolver
     {

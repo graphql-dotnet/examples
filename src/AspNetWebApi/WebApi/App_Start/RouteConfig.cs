@@ -1,7 +1,7 @@
-﻿using System.Web.Mvc;
+using System.Web.Mvc;
 using System.Web.Routing;
 
-namespace GraphQL.GraphiQL
+namespace WebApi
 {
     public class RouteConfig
     {
