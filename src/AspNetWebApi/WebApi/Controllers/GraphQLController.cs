@@ -31,7 +31,7 @@ namespace GraphQL.GraphiQL.Controllers
         [HttpGet]
         public Task<HttpResponseMessage> GetAsync(HttpRequestMessage request)
         {
-            return PostAsync(request, new GraphQLQuery { Query = "query foo { hero }", Variables = null });
+            return PostAsync(request, new GraphQLQuery { Query = "query foo { hero { id name appearsIn } }", Variables = null });
         }
 
         [HttpPost]
