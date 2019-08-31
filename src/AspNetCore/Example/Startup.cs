@@ -35,9 +35,10 @@ namespace Example
             .AddUserContextBuilder(httpContext => new GraphQLUserContext { User = httpContext.User });
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            app.UseDeveloperExceptionPage();
+            if (env.IsDevelopment())
+                app.UseDeveloperExceptionPage();
 
             // add http for Schema at default url /graphql
             app.UseGraphQL<ISchema>();
