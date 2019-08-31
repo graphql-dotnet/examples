@@ -1,8 +1,3 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
 using GraphQL;
 using GraphQL.Http;
 using GraphQL.Instrumentation;
@@ -11,6 +6,11 @@ using GraphQL.Validation;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using StarWars;
+using System;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Threading.Tasks;
 
 namespace Example
 {
