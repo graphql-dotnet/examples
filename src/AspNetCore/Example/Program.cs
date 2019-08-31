@@ -1,22 +1,11 @@
-using System.IO;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using System.Threading.Tasks;
 
 namespace Example
 {
     public class Program
     {
-        public static void Main(string[] args)
-        {
-            var directory = Directory.GetCurrentDirectory();
-
-            var host = new WebHostBuilder()
-                .UseKestrel()
-                .UseContentRoot(directory)
-                .UseIISIntegration()
-                .UseStartup<Startup>()
-                .Build();
-
-            host.Run();
-        }
+        public static Task Main(string[] args) => WebHost.CreateDefaultBuilder<Startup>(args).Build().RunAsync();
     }
 }
