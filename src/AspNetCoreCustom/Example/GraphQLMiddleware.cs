@@ -61,7 +61,7 @@ namespace Example
                 _.OperationName = request?.OperationName;
                 _.Inputs = request?.Variables.ToInputs();
                 _.UserContext = _settings.BuildUserContext?.Invoke(context);
-                _.ValidationRules = DocumentValidator.CoreRules().Concat(new [] { new InputValidationRule() });
+                _.ValidationRules = DocumentValidator.CoreRules.Concat(new [] { new InputValidationRule() });
                 _.EnableMetrics = _settings.EnableMetrics;
                 if (_settings.EnableMetrics)
                 {
