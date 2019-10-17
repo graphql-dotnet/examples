@@ -1,13 +1,13 @@
+using IoC;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Web.Http.Dependencies;
-using IoC;
 
 namespace WebApi
 {
-    public class SimpleContainerDependencyResolver : System.Web.Http.Dependencies.IDependencyResolver
+    public class SimpleContainerDependencyResolver : IDependencyResolver
     {
         private readonly ISimpleContainer _container;
 

@@ -3,7 +3,6 @@ using GraphQL.Http;
 using GraphQL.Types;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using StarWars;
@@ -15,8 +14,6 @@ namespace Example
     {
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<IDependencyResolver>(s => new FuncDependencyResolver(s.GetRequiredService));
-
             services.AddSingleton<IDocumentExecuter, DocumentExecuter>();
             services.AddSingleton<IDocumentWriter, DocumentWriter>();
 
@@ -30,13 +27,14 @@ namespace Example
             services.AddSingleton<EpisodeEnum>();
             services.AddSingleton<ISchema, StarWarsSchema>();
 
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddLogging(builder => builder.AddConsole());
+            services.AddHttpContextAccessor();
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            loggerFactory.AddConsole();
-            app.UseDeveloperExceptionPage();
+            if (env.IsDevelopment())
+                app.UseDeveloperExceptionPage();
 
             app.UseMiddleware<GraphQLMiddleware>(new GraphQLSettings
             {

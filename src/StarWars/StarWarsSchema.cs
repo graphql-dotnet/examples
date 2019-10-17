@@ -1,15 +1,16 @@
-using GraphQL;
 using GraphQL.Types;
+using GraphQL.Utilities;
+using System;
 
 namespace StarWars
 {
     public class StarWarsSchema : Schema
     {
-        public StarWarsSchema(IDependencyResolver resolver)
-            : base(resolver)
+        public StarWarsSchema(IServiceProvider provider)
+            : base(provider)
         {
-            Query = resolver.Resolve<StarWarsQuery>();
-            Mutation = resolver.Resolve<StarWarsMutation>();
+            Query = provider.GetRequiredService<StarWarsQuery>();
+            Mutation = provider.GetRequiredService<StarWarsMutation>();
         }
     }
 }

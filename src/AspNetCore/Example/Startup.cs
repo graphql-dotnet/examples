@@ -1,12 +1,8 @@
-using GraphQL;
-using GraphQL.Http;
 using GraphQL.Server;
-using GraphQL.Server.Transports.AspNetCore;
 using GraphQL.Server.Ui.Playground;
 using GraphQL.Types;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using StarWars;
@@ -18,11 +14,6 @@ namespace Example
     {
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<IDependencyResolver>(s => new FuncDependencyResolver(s.GetRequiredService));
-
-            services.AddSingleton<IDocumentExecuter, DocumentExecuter>();
-            services.AddSingleton<IDocumentWriter, DocumentWriter>();
-
             services.AddSingleton<StarWarsData>();
             services.AddSingleton<StarWarsQuery>();
             services.AddSingleton<StarWarsMutation>();
@@ -33,7 +24,8 @@ namespace Example
             services.AddSingleton<EpisodeEnum>();
             services.AddSingleton<ISchema, StarWarsSchema>();
 
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddLogging(builder => builder.AddConsole());
+            services.AddHttpContextAccessor();
 
             services.AddGraphQL(_ =>
             {
@@ -43,19 +35,16 @@ namespace Example
             .AddUserContextBuilder(httpContext => new GraphQLUserContext { User = httpContext.User });
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            loggerFactory.AddConsole();
-            app.UseDeveloperExceptionPage();
+            if (env.IsDevelopment())
+                app.UseDeveloperExceptionPage();
 
             // add http for Schema at default url /graphql
-            app.UseGraphQL<ISchema>("/graphql");
+            app.UseGraphQL<ISchema>();
 
             // use graphql-playground at default url /ui/playground
-            app.UseGraphQLPlayground(new GraphQLPlaygroundOptions
-            {
-                Path = "/ui/playground"
-            });
+            app.UseGraphQLPlayground();
         }
     }
 }

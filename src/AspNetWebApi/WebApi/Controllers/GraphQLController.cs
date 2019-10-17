@@ -1,13 +1,12 @@
-using System.Collections.Generic;
+using GraphQL.Http;
+using GraphQL.Instrumentation;
+using GraphQL.Types;
+using GraphQL.Validation.Complexity;
 using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
-using GraphQL.Http;
-using GraphQL.Instrumentation;
-using GraphQL.Types;
-using GraphQL.Validation.Complexity;
 
 namespace GraphQL.GraphiQL.Controllers
 {
@@ -31,7 +30,7 @@ namespace GraphQL.GraphiQL.Controllers
         [HttpGet]
         public Task<HttpResponseMessage> GetAsync(HttpRequestMessage request)
         {
-            return PostAsync(request, new GraphQLQuery { Query = "query foo { hero }", Variables = null });
+            return PostAsync(request, new GraphQLQuery { Query = "query foo { hero { id name appearsIn } }", Variables = null });
         }
 
         [HttpPost]

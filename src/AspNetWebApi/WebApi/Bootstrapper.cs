@@ -29,7 +29,7 @@ namespace WebApi
             container.Register<HumanInputType>();
             container.Register<DroidType>();
             container.Register<CharacterInterface>();
-            container.Singleton<ISchema>(new StarWarsSchema(new FuncDependencyResolver(type => container.Get(type))));
+            container.Singleton<ISchema>(new StarWarsSchema(new FuncServiceProvider(type => container.Get(type))));
 
             return container;
         }
