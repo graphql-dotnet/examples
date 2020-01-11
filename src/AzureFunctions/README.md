@@ -1,10 +1,10 @@
 # Azure Functions GraphQL Example
 
-This sample is based on the work from [tpeczek](https://github.com/tpeczek/Demo.Azure.Functions.GraphQL/). He published a blog post about this: [Serverless GraphQL with Azure Functions, GraphQL for .NET, and Cosmos DB](https://www.tpeczek.com/2019/05/serverless-graphql-with-azure-functions.html)
+This sample is based on the work from [tpeczek](https://github.com/tpeczek/Demo.Azure.Functions.GraphQL/). He published a blog post about this: [Serverless GraphQL with Azure Functions, GraphQL for .NET, and Cosmos DB](https://www.tpeczek.com/2019/05/serverless-graphql-with-azure-functions.html).
 
 ## Preparation
 
-Install [Azure Functions Core Tools](https://docs.microsoft.com/en-us/azure/azure-functions/functions-run-local#install-the-azure-functions-core-tools) in version 3 for your plattform
+Install [Azure Functions Core Tools](https://docs.microsoft.com/en-us/azure/azure-functions/functions-run-local#install-the-azure-functions-core-tools) in version 3 for your platform.
 
 ## Run
 
