@@ -4,14 +4,11 @@
     <Version>1.0.0</Version>
     <TargetFramework>netstandard2.0</TargetFramework>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <AssemblyName>GraphQL.StarWars</AssemblyName>
-    <PackageId>GraphQL.StarWars</PackageId>
-    <PackageProjectUrl>https://github.com/graphql-dotnet/graphql-dotnet</PackageProjectUrl>
-    <PackageLicenseUrl>https://github.com/graphql-dotnet/graphql-dotnet/blob/master/LICENSE.md</PackageLicenseUrl>
+    <Description>Taken from https://github.com/graphql-dotnet/graphql-dotnet/tree/master/src/GraphQL.StarWars</Description>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="GraphQL" Version="3.0.0-preview-1282" />
+    <PackageReference Include="GraphQL" Version="3.0.0-preview-1357" />
   </ItemGroup>
 
 </Project>
