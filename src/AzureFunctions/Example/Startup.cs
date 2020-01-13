@@ -24,9 +24,9 @@ namespace Example
             builder.Services.AddSingleton<EpisodeEnum>();
             builder.Services.AddSingleton<ISchema, StarWarsSchema>();
 
-            // Azure Functions is not using `Microsoft.Extensions.DependencyInjection`, instead it is using (DryIoc)[https://github.com/dadhi/DryIoc].
-            // This results into another behavior if multiple Constructors exists and
-            // for DocumentExecuter the one with one with no arguments should be called.
+            // Azure Functions do not use `Microsoft.Extensions.DependencyInjection`, instead they use
+            // DryIoc - https://github.com/dadhi/DryIoc. This leads to a different behavior if multiple
+            // constructors exists so for DocumentExecuter should be called one which has no arguments.
             // See also https://bitbucket.org/dadhi/dryioc/wiki/SelectConstructorOrFactoryMethod
             builder.Services.AddSingleton<IDocumentExecuter>(sp => new DocumentExecuter());
             builder.Services.AddGraphQL();
