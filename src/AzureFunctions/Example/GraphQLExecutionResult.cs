@@ -37,6 +37,9 @@ namespace Example
             response.ContentType = CONTENT_TYPE;
             response.StatusCode = StatusCodes.Status200OK;
 
+            // Azure functions 3 disallowing async IO and newtonsoft json is not able to
+            // make real async IO, we need copy to a MemoryStream
+            // after graphql has switch to System.Text.Json this can written directly to response.Body
             using var stream = new MemoryStream();
             await documentWriter.WriteAsync(stream, _executionResult);
             stream.Position = 0;
