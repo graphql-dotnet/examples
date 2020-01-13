@@ -6,7 +6,7 @@ Examples for GraphQL for .NET
 |------------------|-------------|
 | AspNetCore       | ASP.NET Core 2.2 app with GraphQL and Playground middlewares from [server](https://github.com/graphql-dotnet/server) project |
 | AspNetCoreCustom | ASP.NET Core 2.2 app with custom GraphQL and UI middlewares |
-| AspNetWebApi     | .NETFramework 4.6.1 Web API example |
+| AspNetWebApi     | .NET Framework 4.6.1 Web API example |
 | AzureFunctions   | Using GraphQL in Azure Functions |
 | StarWars         | StarWars demo schema used in all examples |
 
