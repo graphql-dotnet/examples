@@ -30,3 +30,6 @@ _NCrunch_*/
 bundle.js
 bundle.css
 style.css
+
+# Azure Functions localsettings file
+local.settings.json
