@@ -23,6 +23,8 @@ namespace Example
             services.AddSingleton<EpisodeEnum>();
             services.AddSingleton<ISchema, StarWarsSchema>();
 
+            services.AddSingleton(typeof(TypeFieldEnumerationWithoutLists<>), typeof(TypeFieldEnumerationWithoutLists<>));
+
             services.AddLogging(builder => builder.AddConsole());
             services.AddHttpContextAccessor();
 

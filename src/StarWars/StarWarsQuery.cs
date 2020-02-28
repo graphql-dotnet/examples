@@ -1,4 +1,6 @@
 using System;
+using Graphql.Extensions.FieldEnums.Types;
+using Graphql.Extensions.FieldEnums.Types.Extensions;
 using GraphQL.Types;
 using StarWars.Types;
 
@@ -15,7 +17,7 @@ namespace StarWars
                 "human",
                 arguments: new QueryArguments(
                     new QueryArgument<NonNullGraphType<StringGraphType>> { Name = "id", Description = "id of the human" }
-                ),
+                ).AddRange(DefaultQueryArguments.SkipTakeOrderByArguments<HumanType>()),
                 resolve: context => data.GetHumanByIdAsync(context.GetArgument<string>("id"))
             );
 

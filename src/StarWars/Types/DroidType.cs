@@ -1,8 +1,9 @@
+using Graphql.Extensions.FieldEnums.Types;
 using GraphQL.Types;
 
 namespace StarWars.Types
 {
-    public class DroidType : ObjectGraphType<Droid>
+    public class DroidType : UtilityGraphType<Droid>
     {
         public DroidType(StarWarsData data)
         {

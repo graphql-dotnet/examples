@@ -1,8 +1,9 @@
+using Graphql.Extensions.FieldEnums.Types;
 using GraphQL.Types;
 
 namespace StarWars.Types
 {
-    public class HumanType : ObjectGraphType<Human>
+    public class HumanType : UtilityGraphType<Human>
     {
         public HumanType(StarWarsData data)
         {

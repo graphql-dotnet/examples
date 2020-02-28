@@ -11,4 +11,8 @@
     <PackageReference Include="GraphQL" Version="3.0.0-preview-1357" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\AspNetCore\Graphql.Extensions.FieldEnums\Graphql.Extensions.FieldEnums.csproj" />
+  </ItemGroup>
+
 </Project>
