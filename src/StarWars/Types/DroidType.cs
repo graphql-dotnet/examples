@@ -3,7 +3,7 @@ using GraphQL.Types;
 
 namespace StarWars.Types
 {
-    public class DroidType : UtilityGraphType<Droid>
+    public class DroidType : FieldAwareGraphType<Droid>
     {
         public DroidType(StarWarsData data)
         {

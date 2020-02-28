@@ -7,7 +7,7 @@ using GraphQL.Types;
 
 namespace Graphql.Extensions.FieldEnums.Types
 {
-    public class UtilityGraphType<TSourceType> : ObjectGraphType<TSourceType>
+    public class FieldAwareGraphType<TSourceType> : ObjectGraphType<TSourceType>
     {
         public override FieldBuilder<TSourceType, TProperty> Field<TProperty>
         (

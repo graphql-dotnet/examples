@@ -3,7 +3,7 @@ using GraphQL.Types;
 
 namespace StarWars.Types
 {
-    public class HumanType : UtilityGraphType<Human>
+    public class HumanType : FieldAwareGraphType<Human>
     {
         public HumanType(StarWarsData data)
         {
