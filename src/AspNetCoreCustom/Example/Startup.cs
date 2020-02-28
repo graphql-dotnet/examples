@@ -1,5 +1,4 @@
 using GraphQL;
-using GraphQL.Http;
 using GraphQL.Types;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -15,7 +14,7 @@ namespace Example
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<IDocumentExecuter, DocumentExecuter>();
-            services.AddSingleton<IDocumentWriter, DocumentWriter>();
+            services.AddSingleton<IDocumentWriter, GraphQL.NewtonsoftJson.DocumentWriter>();
 
             services.AddSingleton<StarWarsData>();
             services.AddSingleton<StarWarsQuery>();

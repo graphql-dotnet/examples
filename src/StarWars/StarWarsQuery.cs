@@ -1,4 +1,5 @@
 using System;
+using GraphQL;
 using GraphQL.Types;
 using StarWars.Types;
 
@@ -19,7 +20,7 @@ namespace StarWars
                 resolve: context => data.GetHumanByIdAsync(context.GetArgument<string>("id"))
             );
 
-            Func<ResolveFieldContext, string, object> func = (context, id) => data.GetDroidByIdAsync(id);
+            Func<IResolveFieldContext, string, object> func = (context, id) => data.GetDroidByIdAsync(id);
 
             FieldDelegate<DroidType>(
                 "droid",

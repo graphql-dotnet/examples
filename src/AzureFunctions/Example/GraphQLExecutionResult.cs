@@ -3,7 +3,6 @@
 // </copyright>
 // <author>https://github.com/tpeczek</author>
 using GraphQL;
-using GraphQL.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
