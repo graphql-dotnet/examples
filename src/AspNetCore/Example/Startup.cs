@@ -1,3 +1,4 @@
+using Graphql.Extensions.FieldEnums.Types;
 using GraphQL.Server;
 using GraphQL.Types;
 using Microsoft.AspNetCore.Builder;

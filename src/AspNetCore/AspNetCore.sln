@@ -14,7 +14,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		run.sh = run.sh
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Graphql.Extensions.FieldEnums", "Graphql.Extensions.FieldEnums\Graphql.Extensions.FieldEnums.csproj", "{3F6540A1-0539-431B-B1B2-630161A00661}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Graphql.Extensions.FieldEnums", "..\Graphql.Extensions.FieldEnums\Graphql.Extensions.FieldEnums.csproj", "{25647A77-01C4-47C4-8409-4BD2616563D7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -50,18 +50,18 @@ Global
 		{46C914F6-4432-4D1F-8B47-18F0C9AA65DD}.Release|x64.Build.0 = Release|Any CPU
 		{46C914F6-4432-4D1F-8B47-18F0C9AA65DD}.Release|x86.ActiveCfg = Release|Any CPU
 		{46C914F6-4432-4D1F-8B47-18F0C9AA65DD}.Release|x86.Build.0 = Release|Any CPU
-		{3F6540A1-0539-431B-B1B2-630161A00661}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3F6540A1-0539-431B-B1B2-630161A00661}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3F6540A1-0539-431B-B1B2-630161A00661}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{3F6540A1-0539-431B-B1B2-630161A00661}.Debug|x64.Build.0 = Debug|Any CPU
-		{3F6540A1-0539-431B-B1B2-630161A00661}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{3F6540A1-0539-431B-B1B2-630161A00661}.Debug|x86.Build.0 = Debug|Any CPU
-		{3F6540A1-0539-431B-B1B2-630161A00661}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3F6540A1-0539-431B-B1B2-630161A00661}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3F6540A1-0539-431B-B1B2-630161A00661}.Release|x64.ActiveCfg = Release|Any CPU
-		{3F6540A1-0539-431B-B1B2-630161A00661}.Release|x64.Build.0 = Release|Any CPU
-		{3F6540A1-0539-431B-B1B2-630161A00661}.Release|x86.ActiveCfg = Release|Any CPU
-		{3F6540A1-0539-431B-B1B2-630161A00661}.Release|x86.Build.0 = Release|Any CPU
+		{25647A77-01C4-47C4-8409-4BD2616563D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{25647A77-01C4-47C4-8409-4BD2616563D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{25647A77-01C4-47C4-8409-4BD2616563D7}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{25647A77-01C4-47C4-8409-4BD2616563D7}.Debug|x64.Build.0 = Debug|Any CPU
+		{25647A77-01C4-47C4-8409-4BD2616563D7}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{25647A77-01C4-47C4-8409-4BD2616563D7}.Debug|x86.Build.0 = Debug|Any CPU
+		{25647A77-01C4-47C4-8409-4BD2616563D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{25647A77-01C4-47C4-8409-4BD2616563D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{25647A77-01C4-47C4-8409-4BD2616563D7}.Release|x64.ActiveCfg = Release|Any CPU
+		{25647A77-01C4-47C4-8409-4BD2616563D7}.Release|x64.Build.0 = Release|Any CPU
+		{25647A77-01C4-47C4-8409-4BD2616563D7}.Release|x86.ActiveCfg = Release|Any CPU
+		{25647A77-01C4-47C4-8409-4BD2616563D7}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

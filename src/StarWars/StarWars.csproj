@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AspNetCore\Graphql.Extensions.FieldEnums\Graphql.Extensions.FieldEnums.csproj" />
+    <ProjectReference Include="..\Graphql.Extensions.FieldEnums\Graphql.Extensions.FieldEnums.csproj" />
   </ItemGroup>
 
 </Project>
