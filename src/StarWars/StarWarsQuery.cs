@@ -1,4 +1,5 @@
 using System;
+using Graphql.Extensions.FieldEnums;
 using Graphql.Extensions.FieldEnums.Types;
 using Graphql.Extensions.FieldEnums.Types.Extensions;
 using GraphQL.Types;
@@ -18,16 +19,25 @@ namespace StarWars
                 arguments: new QueryArguments(
                     new QueryArgument<NonNullGraphType<StringGraphType>> { Name = "id", Description = "id of the human" }
                 ).AddRange(DefaultQueryArguments.SkipTakeOrderByArguments<HumanType>()),
-                resolve: context => data.GetHumanByIdAsync(context.GetArgument<string>("id"))
-            );
+                resolve: context =>
+                {
+                    var skipTakeArgs = SkipTakeOrderByArgument.Parse(context);
 
-            Func<ResolveFieldContext, string, object> func = (context, id) => data.GetDroidByIdAsync(id);
+                    return data.GetHumanByIdAsync(context.GetArgument<string>("id"));
+                });
+
+            Func<ResolveFieldContext, string, object> func = (context, id) =>
+            {
+                var skipTakeArgs = SkipTakeOrderByArgument.Parse(context);
+                return data.GetDroidByIdAsync(id);
+            };
 
             FieldDelegate<DroidType>(
                 "droid",
                 arguments: new QueryArguments(
                     new QueryArgument<NonNullGraphType<StringGraphType>> { Name = "id", Description = "id of the droid" }
-                ),
+                ).AddRange(DefaultQueryArguments.SkipTakeOrderByArguments<DroidType>()),
+
                 resolve: func
             );
         }
