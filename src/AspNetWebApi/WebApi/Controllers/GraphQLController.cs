@@ -1,7 +1,7 @@
-using GraphQL.Http;
 using GraphQL.Instrumentation;
 using GraphQL.Types;
 using GraphQL.Validation.Complexity;
+using GraphQL.NewtonsoftJson;
 using System.Net;
 using System.Net.Http;
 using System.Text;

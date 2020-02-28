@@ -1,5 +1,4 @@
 using GraphQL;
-using GraphQL.Http;
 using GraphQL.Types;
 using IoC;
 using StarWars;
@@ -20,7 +19,7 @@ namespace WebApi
         {
             var container = new SimpleContainer();
             container.Singleton<IDocumentExecuter>(new DocumentExecuter());
-            container.Singleton<IDocumentWriter>(new DocumentWriter(true));
+            container.Singleton<IDocumentWriter>(new GraphQL.NewtonsoftJson.DocumentWriter(true));
 
             container.Singleton(new StarWarsData());
             container.Register<StarWarsQuery>();
