@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Graphql.Extensions.FieldEnums.Types.Extensions;
 using GraphQL.Types;
+using GraphQL.Utilities;
 
 namespace Graphql.Extensions.FieldEnums.Types
 {
@@ -25,7 +26,7 @@ namespace Graphql.Extensions.FieldEnums.Types
         {
             if (typeof(IComplexGraphType).IsAssignableFrom(typeof(TType)))
             {
-                var graphType = this.serviceProvider.GetService<TType>() as IComplexGraphType;
+                var graphType = this.serviceProvider.GetRequiredService<TType>() as IComplexGraphType;
                 var fields = graphType.Fields;
 
                 foreach (var field in fields)
