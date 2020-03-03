@@ -2,6 +2,7 @@ using System;
 using Graphql.Extensions.FieldEnums;
 using Graphql.Extensions.FieldEnums.Types;
 using Graphql.Extensions.FieldEnums.Types.Extensions;
+using GraphQL;
 using GraphQL.Types;
 using StarWars.Types;
 
@@ -28,7 +29,7 @@ namespace StarWars
                 resolve: context => data.GetHumansAsync(SkipTakeOrderByArgument.Parse(context))
             );
 
-            Func<ResolveFieldContext, string, object> func = (context, id) => data.GetDroidByIdAsync(id);
+            Func<IResolveFieldContext, string, object> func = (context, id) => data.GetDroidByIdAsync(id);
 
             FieldDelegate<DroidType>(
                 "droid",

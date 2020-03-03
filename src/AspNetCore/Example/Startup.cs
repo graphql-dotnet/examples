@@ -29,11 +29,12 @@ namespace Example
             services.AddLogging(builder => builder.AddConsole());
             services.AddHttpContextAccessor();
 
-            services.AddGraphQL(_ =>
+            services.AddGraphQL(options =>
             {
-                _.EnableMetrics = true;
-                _.ExposeExceptions = true;
+                options.EnableMetrics = true;
+                options.ExposeExceptions = true;
             })
+            .AddNewtonsoftJson() // or use AddSystemTextJson for .NET Core 3+
             .AddUserContextBuilder(httpContext => new GraphQLUserContext { User = httpContext.User });
         }
 

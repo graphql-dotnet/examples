@@ -3,6 +3,7 @@
 // </copyright>
 // <author>https://github.com/tpeczek</author>
 using GraphQL;
+using GraphQL.NewtonsoftJson;
 using GraphQL.Server.Internal;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
@@ -49,7 +50,7 @@ namespace Example
                         break;
                     case GRAPHQL_MEDIA_TYPE:
                         query = await ExtractGraphQLQueryFromGraphQLBodyAsync(request.Body);
-                        variables = new Inputs();
+                        variables = Inputs.Empty;
                         break;
                     case FORM_URLENCODED_MEDIA_TYPE:
                         (operationName, query, variables) = await ExtractGraphQLAttributesFromFormCollectionAsync(request);
@@ -77,7 +78,7 @@ namespace Example
             return (
                 request.Query.TryGetValue(OPERATION_NAME_KEY, out var operationNameValues) ? operationNameValues[0] : null,
                 request.Query[QUERY_KEY][0],
-                request.Query.TryGetValue(VARIABLES_KEY, out var variablesValues) ? variablesValues[0].ToInputs() : new Inputs()
+                request.Query.TryGetValue(VARIABLES_KEY, out var variablesValues) ? variablesValues[0].ToInputs() : Inputs.Empty
             );
         }
 
