@@ -11,9 +11,15 @@ namespace Graphql.Extensions.FieldEnums.Types.Extensions
         public static FieldBuilder<TSourceType, TProperty> WithOriginalName<TSourceType, TProperty>
         (
             this FieldBuilder<TSourceType, TProperty> fieldBuilder,
-            string originalName
+            string originalName,
+            bool overwrite = false
         )
         {
+            if (!overwrite && fieldBuilder.FieldType.Metadata.ContainsKey(SharedConstants.OriginalPropertyName))
+            {
+                return fieldBuilder;
+            }
+
             fieldBuilder.FieldType.Metadata[SharedConstants.OriginalPropertyName] = originalName;
             return fieldBuilder;
         }
