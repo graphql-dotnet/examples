@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Text;
+using GraphQL;
 using Graphql.Extensions.FieldEnums.Exceptions;
 using GraphQL.Types;
 
@@ -16,7 +17,7 @@ namespace Graphql.Extensions.FieldEnums
         {
         }
 
-        public static SkipTakeOrderByArgument Parse<T>(ResolveFieldContext<T> context)
+        public static SkipTakeOrderByArgument Parse<T>(IResolveFieldContext<T> context)
         {
             var result = new SkipTakeOrderByArgument
             {
