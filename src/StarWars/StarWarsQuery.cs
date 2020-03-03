@@ -18,25 +18,23 @@ namespace StarWars
                 "human",
                 arguments: new QueryArguments(
                     new QueryArgument<NonNullGraphType<StringGraphType>> { Name = "id", Description = "id of the human" }
-                ).AddRange(DefaultQueryArguments.SkipTakeOrderByArguments<HumanType>()),
-                resolve: context =>
-                {
-                    var skipTakeArgs = SkipTakeOrderByArgument.Parse(context);
+                ),
+                resolve: context => data.GetHumanByIdAsync(context.GetArgument<string>("id")));
 
-                    return data.GetHumanByIdAsync(context.GetArgument<string>("id"));
-                });
 
-            Func<ResolveFieldContext, string, object> func = (context, id) =>
-            {
-                var skipTakeArgs = SkipTakeOrderByArgument.Parse(context);
-                return data.GetDroidByIdAsync(id);
-            };
+            Field<ListGraphType<HumanType>>(
+                "humans",
+                arguments: new QueryArguments(DefaultQueryArguments.SkipTakeOrderByArguments<HumanType>()),
+                resolve: context => data.GetHumansAsync(SkipTakeOrderByArgument.Parse(context))
+            );
+
+            Func<ResolveFieldContext, string, object> func = (context, id) => data.GetDroidByIdAsync(id);
 
             FieldDelegate<DroidType>(
                 "droid",
                 arguments: new QueryArguments(
                     new QueryArgument<NonNullGraphType<StringGraphType>> { Name = "id", Description = "id of the droid" }
-                ).AddRange(DefaultQueryArguments.SkipTakeOrderByArguments<DroidType>()),
+                ),
 
                 resolve: func
             );
