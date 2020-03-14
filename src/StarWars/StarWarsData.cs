@@ -1,9 +1,14 @@
+using Graphql.Extensions.FieldEnums;
+
+using GraphQL;
+
+using StarWars.Types;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
-using GraphQL;
-using StarWars.Types;
 
 namespace StarWars
 {
@@ -79,6 +84,38 @@ namespace StarWars
             human.Id = Guid.NewGuid().ToString();
             _humans.Add(human);
             return human;
+        }
+
+        public Task<IEnumerable<Human>> GetHumansAsync(SkipTakeOrderByArgument skipTakeArgs)
+        {
+            var query = _humans.AsQueryable();
+            if (!string.IsNullOrEmpty(skipTakeArgs.OrderBy))
+            {
+                query = query.OrderBy(skipTakeArgs.OrderBy);
+            }
+            else if (!string.IsNullOrEmpty(skipTakeArgs.OrderByDesc))
+            {
+                query = query.OrderBy($"{skipTakeArgs.OrderByDesc} descending");
+            }
+            else
+            {
+                if (skipTakeArgs.Skip != null || skipTakeArgs.Take != null)
+                {
+                    query = query.OrderBy(x => x.Id);
+                }
+            }
+
+            if (skipTakeArgs.Skip != null)
+            {
+                query = query.Skip(skipTakeArgs.Skip.Value);
+            }
+
+            if (skipTakeArgs.Take != null)
+            {
+                query = query.Take(skipTakeArgs.Take.Value);
+            }
+
+            return Task.FromResult(query.ToList().AsEnumerable());
         }
     }
 }

@@ -1,4 +1,7 @@
 using System;
+using Graphql.Extensions.FieldEnums;
+using Graphql.Extensions.FieldEnums.Types;
+using Graphql.Extensions.FieldEnums.Types.Extensions;
 using GraphQL;
 using GraphQL.Types;
 using StarWars.Types;
@@ -17,7 +20,13 @@ namespace StarWars
                 arguments: new QueryArguments(
                     new QueryArgument<NonNullGraphType<StringGraphType>> { Name = "id", Description = "id of the human" }
                 ),
-                resolve: context => data.GetHumanByIdAsync(context.GetArgument<string>("id"))
+                resolve: context => data.GetHumanByIdAsync(context.GetArgument<string>("id")));
+
+
+            Field<ListGraphType<HumanType>>(
+                "humans",
+                arguments: new QueryArguments(DefaultQueryArguments.SkipTakeOrderByArguments<HumanType>()),
+                resolve: context => data.GetHumansAsync(SkipTakeOrderByArgument.Parse(context))
             );
 
             Func<IResolveFieldContext, string, object> func = (context, id) => data.GetDroidByIdAsync(id);
@@ -27,6 +36,7 @@ namespace StarWars
                 arguments: new QueryArguments(
                     new QueryArgument<NonNullGraphType<StringGraphType>> { Name = "id", Description = "id of the droid" }
                 ),
+
                 resolve: func
             );
         }

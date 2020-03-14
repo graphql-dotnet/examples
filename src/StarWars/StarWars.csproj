@@ -9,6 +9,11 @@
 
   <ItemGroup>
     <PackageReference Include="GraphQL" Version="3.0.0-preview-1558" />
+    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.0.21" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Graphql.Extensions.FieldEnums\Graphql.Extensions.FieldEnums.csproj" />
   </ItemGroup>
 
 </Project>

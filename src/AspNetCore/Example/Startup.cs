@@ -1,3 +1,4 @@
+using Graphql.Extensions.FieldEnums.Types;
 using GraphQL.Server;
 using GraphQL.Types;
 using Microsoft.AspNetCore.Builder;
@@ -22,6 +23,8 @@ namespace Example
             services.AddSingleton<CharacterInterface>();
             services.AddSingleton<EpisodeEnum>();
             services.AddSingleton<ISchema, StarWarsSchema>();
+
+            services.AddSingleton(typeof(TypeFieldEnumerationWithoutLists<>), typeof(TypeFieldEnumerationWithoutLists<>));
 
             services.AddLogging(builder => builder.AddConsole());
             services.AddHttpContextAccessor();
