@@ -20,6 +20,11 @@ namespace StarWars.Types
             Field(d => d.PrimaryFunction, nullable: true).Description("The primary function of the droid.");
 
             Interface<CharacterInterface>();
+
+            Field<PlanetType>(
+                "manufacturedOn",
+                resolve: context => data.GetPlanetByNameAsync(context.Source.ManufacturdOn)
+            );
         }
     }
 }

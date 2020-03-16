@@ -93,6 +93,11 @@ namespace StarWars
             return Task.FromResult(_droids.FirstOrDefault(h => h.Id == id));
         }
 
+        public Task<Planet> GetPlanetByNameAsync(string id)
+        {
+            return Task.FromResult(_planets.FirstOrDefault(h => h.Name == id));
+        }
+
         public Human AddHuman(Human human)
         {
             human.Id = Guid.NewGuid().ToString();
