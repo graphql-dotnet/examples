@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using GraphQL;
 using StarWars.Types;
@@ -93,9 +94,12 @@ namespace StarWars
             return Task.FromResult(_droids.FirstOrDefault(h => h.Id == id));
         }
 
-        public Task<Planet> GetPlanetByNameAsync(string id)
+        private static int _GetPlanetByNameAsync = 0;
+        public async Task<Planet> GetPlanetByNameAsync(string id)
         {
-            return Task.FromResult(_planets.FirstOrDefault(h => h.Name == id));
+            await Task.Delay(1000);
+            Console.WriteLine(Interlocked.Increment(ref _GetPlanetByNameAsync));
+            return _planets.FirstOrDefault(h => h.Name == id);
         }
 
         public Human AddHuman(Human human)
