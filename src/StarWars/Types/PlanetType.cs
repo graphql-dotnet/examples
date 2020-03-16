@@ -12,11 +12,11 @@ namespace StarWars.Types
             Field(d => d.Id).Description("The id of the planet.");
             Field(d => d.Name, nullable: true).Description("The name of the dplanetroid.");
 
-            Field<ListGraphType<CharacterInterface>>(
+            Field<HumanType>(
                 "mostFamousSith",
                 resolve: context => data.GetHumanByIdAsync(context.Source.MostFamousSith)
             );
-            Field<ListGraphType<CharacterInterface>>(
+            Field<HumanType>(
                 "mostFamousJedi",
                 resolve: context => data.GetHumanByIdAsync(context.Source.MostFamousJedi)
             );

@@ -17,7 +17,11 @@ namespace StarWars.Types
             );
             Field<ListGraphType<EpisodeEnum>>("appearsIn", "Which movie they appear in.");
 
-            Field(h => h.HomePlanet, nullable: true).Description("The home planet of the human.");
+            Field<PlanetType>(
+                "homePlanet",
+                description: "The home planet of the human.",
+                resolve: context => data.GetPlanetByNameAsync(context.Source.HomePlanet)
+            );
 
             Interface<CharacterInterface>();
         }
