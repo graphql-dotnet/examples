@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2036
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30621.155
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StarWars", "..\StarWars\StarWars.csproj", "{E579287D-EFD6-4803-9B52-23BE9854A9AE}"
 EndProject
@@ -9,7 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Example", "Example\Example.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A021C672-08D4-44FA-90AE-CB4658208F07}"
 	ProjectSection(SolutionItems) = preProject
-		nuget.config = nuget.config
 		README.md = README.md
 		run.sh = run.sh
 	EndProjectSection

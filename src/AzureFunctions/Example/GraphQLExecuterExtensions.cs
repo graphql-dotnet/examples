@@ -67,7 +67,7 @@ namespace Example
             logger.LogDebug("got graphql query: {operationName}, {query}, {variables}", operationName, query, variables);
             var stopwatch = new Stopwatch();
             stopwatch.Start();
-            var executonResult = await graphQLExecuter.ExecuteAsync(operationName, query, variables, null, request.HttpContext.RequestAborted);
+            var executonResult = await graphQLExecuter.ExecuteAsync(operationName, query, variables, null, request.HttpContext.RequestServices, request.HttpContext.RequestAborted);
             stopwatch.Stop();
             logger.LogMetric($"graphql.{operationName}", stopwatch.ElapsedMilliseconds);
             return executonResult;

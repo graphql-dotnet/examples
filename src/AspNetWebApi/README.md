@@ -1,4 +1,4 @@
-# ASP.NET Web Api GraphQL Example
+# ASP.NET Web API GraphQL Example
 
 ```
 > npm install
