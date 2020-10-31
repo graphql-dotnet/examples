@@ -1,0 +1,22 @@
+{
+  "profiles": {
+    "Dogs": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "ui/dogs",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "http://localhost:3000"
+    },
+    "Cats": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "ui/cats",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "http://localhost:3000"
+    }
+  }
+}

@@ -1,12 +1,10 @@
 using GraphQL.Server;
-using GraphQL.Types;
+using GraphQL.Server.Ui.Playground;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using StarWars;
-using StarWars.Types;
 
 namespace Example
 {
@@ -14,15 +12,10 @@ namespace Example
     {
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<StarWarsData>();
-            services.AddSingleton<StarWarsQuery>();
-            services.AddSingleton<StarWarsMutation>();
-            services.AddSingleton<HumanType>();
-            services.AddSingleton<HumanInputType>();
-            services.AddSingleton<DroidType>();
-            services.AddSingleton<CharacterInterface>();
-            services.AddSingleton<EpisodeEnum>();
-            services.AddSingleton<ISchema, StarWarsSchema>();
+            services.AddSingleton<DogSchema>();
+            services.AddSingleton<DogQuery>();
+            services.AddSingleton<CatSchema>();
+            services.AddSingleton<CatQuery>();
 
             services.AddLogging(builder => builder.AddConsole());
             services.AddHttpContextAccessor();
@@ -41,11 +34,11 @@ namespace Example
             if (env.IsDevelopment())
                 app.UseDeveloperExceptionPage();
 
-            // add http for Schema at default url /graphql
-            app.UseGraphQL<ISchema>();
+            app.UseGraphQL<DogSchema>("/api/dogs");
+            app.UseGraphQL<CatSchema>("/api/cats");
 
-            // use graphql-playground at default url /ui/playground
-            app.UseGraphQLPlayground();
+            app.UseGraphQLPlayground(new GraphQLPlaygroundOptions { GraphQLEndPoint = "/api/dogs", Path = "/ui/dogs" });
+            app.UseGraphQLPlayground(new GraphQLPlaygroundOptions { GraphQLEndPoint = "/api/cats", Path = "/ui/cats" });
         }
     }
 }

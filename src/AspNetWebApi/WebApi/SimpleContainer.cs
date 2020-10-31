@@ -60,8 +60,7 @@ namespace IoC
 
         public object Get(Type serviceType)
         {
-            Func<object> creator;
-            if (_registrations.TryGetValue(serviceType, out creator))
+            if (_registrations.TryGetValue(serviceType, out Func<object> creator))
             {
                 return creator();
             }
