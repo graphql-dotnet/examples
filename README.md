@@ -1,6 +1,6 @@
 # GraphQL Examples
 
-Examples for GraphQL for .NET
+Examples for [GraphQL.NET](https://github.com/graphql-dotnet/graphql-dotnet).
 
 | Project          | Description |
 |------------------|-------------|
