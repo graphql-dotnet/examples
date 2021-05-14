@@ -1,12 +1,11 @@
 using GraphQL;
+using GraphQL.Server.Ui.Playground;
 using GraphQL.Types;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using StarWars;
-using StarWars.Types;
 
 namespace Example
 {
@@ -14,27 +13,29 @@ namespace Example
     {
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddLogging(builder => builder.AddConsole());
+            services.AddHttpContextAccessor();
+
             services.AddSingleton<IDocumentExecuter, DocumentExecuter>();
             services.AddSingleton<IDocumentWriter, GraphQL.SystemTextJson.DocumentWriter>();
 
-            services.AddSingleton<StarWarsData>();
-            services.AddSingleton<StarWarsQuery>();
-            services.AddSingleton<StarWarsMutation>();
-            services.AddSingleton<HumanType>();
-            services.AddSingleton<HumanInputType>();
-            services.AddSingleton<DroidType>();
-            services.AddSingleton<CharacterInterface>();
-            services.AddSingleton<EpisodeEnum>();
-            services.AddSingleton<ISchema, StarWarsSchema>();
-
-            services.AddLogging(builder => builder.AddConsole());
-            services.AddHttpContextAccessor();
+            services.AddSingleton<ISchema>(s =>
+            {
+                return Schema.For(@"
+                    type Query {
+                        hello: String
+                    }
+                ",
+                _ => _.Types.Include<QueryType>());
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
                 app.UseDeveloperExceptionPage();
+
+            app.UseGraphQLPlayground(new PlaygroundOptions { GraphQLEndPoint = "/api/graphql" });
 
             app.UseMiddleware<GraphQLMiddleware>(new GraphQLSettings
             {
@@ -45,9 +46,6 @@ namespace Example
                 },
                 EnableMetrics = true
             });
-
-            app.UseDefaultFiles();
-            app.UseStaticFiles();
         }
     }
 }
