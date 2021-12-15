@@ -110,12 +110,12 @@ namespace Client
             };
             //add authorization headers if necessary here
             httpRequestMessage.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            using (var response = await httpClient.SendAsync(httpRequestMessage, cancellationToken))
+            using (var response = await httpClient.SendAsync(httpRequestMessage, cancellationToken).ConfigureAwait(false))
             {
                 //if (response.IsSuccessStatusCode)
                 if (response?.Content.Headers.ContentType?.MediaType == "application/json")
                 {
-                    var responseString = await response.Content.ReadAsStringAsync(); //cancellationToken supported for .NET 5/6
+                    var responseString = await response.Content.ReadAsStringAsync().ConfigureAwait(false); //cancellationToken supported for .NET 5/6
                     return DeserializeGraphQLCall<TResponse>(responseString);
                 }
                 else
