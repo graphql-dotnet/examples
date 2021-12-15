@@ -14,7 +14,9 @@ namespace Client
     {
         static void Main(string[] args)
         {
-            MainAsync(default).Wait();
+            using var cts = new CancellationTokenSource();
+            Console.CancelKeyPress += (o, e) => cts.Cancel();
+            MainAsync(cts.Token).Wait();
         }
 
         static async Task MainAsync(CancellationToken cancellationToken)
@@ -47,7 +49,7 @@ namespace Client
 
         private static HttpClient httpClient = new HttpClient();
 
-        static async Task<GraphQlResponse<TResponse>> CallGraphQlAsync<TResponse>(Uri endpoint, HttpMethod method, string query, object variables, CancellationToken cancellationToken)
+        static async Task<GraphQLResponse<TResponse>> CallGraphQLAsync<TResponse>(Uri endpoint, HttpMethod method, string query, object variables, CancellationToken cancellationToken)
         {
             var content = new StringContent(SerializeGraphQlCall(query, variables), Encoding.UTF8, "application/json");
             var httpRequestMessage = new HttpRequestMessage
@@ -72,26 +74,26 @@ namespace Client
             }
         }
 
-        public class GraphQlErrorLocation
+        public class GraphQLErrorLocation
         {
             public int Line { get; set; }
             public int Column { get; set; }
         }
 
-        public class GraphQlError
+        public class GraphQLError
         {
             public string Message { get; set; }
             public List<GraphQlErrorLocation> Locations { get; set; }
             public List<object> Path { get; set; } //either int or string
         }
 
-        public class GraphQlResponse<TResponse>
+        public class GraphQLResponse<TResponse>
         {
             public List<GraphQlError> Errors { get; set; }
             public TResponse Data { get; set; }
         }
 
-        private static string SerializeGraphQlCall(string query, object variables)
+        private static string SerializeGraphQLCall(string query, object variables)
         {
             var sb = new StringBuilder();
             var textWriter = new StringWriter(sb);
@@ -104,7 +106,7 @@ namespace Client
             return sb.ToString();
         }
 
-        private static GraphQlResponse<TResponse> DeserializeGraphQlCall<TResponse>(string response)
+        private static GraphQLResponse<TResponse> DeserializeGraphQLCall<TResponse>(string response)
         {
             var serializer = new JsonSerializer();
             var stringReader = new StringReader(response);
