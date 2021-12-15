@@ -12,26 +12,47 @@ namespace Client
 {
     internal class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
-            using var cts = new CancellationTokenSource();
-            Console.CancelKeyPress += (o, e) => cts.Cancel();
-            MainAsync(cts.Token).Wait();
-        }
-
-        static async Task MainAsync(CancellationToken cancellationToken)
-        {
-            Console.WriteLine("Searching for city 'detroit'...");
-            var result = await CallGraphQlAsync<MyResponseData>(
-                new Uri("https://graphql-weather-api.herokuapp.com/"),
-                HttpMethod.Post,
-                "query ($city: String!) { getCityByName(name: $city) { name country } }",
-                new
+            try
+            {
+                using (var cts = new CancellationTokenSource())
                 {
-                    city = "detroit",
-                },
-                cancellationToken);
-            Console.WriteLine($"Found city {result.Data.GetCityByName.Name}, {result.Data.GetCityByName.Country}");
+                    ConsoleCancelEventHandler handler = (o, e) =>
+                    {
+                        Console.WriteLine("Cancelling...");
+                        cts.Cancel();
+                        e.Cancel = true;
+                    };
+                    Console.CancelKeyPress += handler;
+                    try
+                    {
+                        Console.WriteLine("Searching for city 'detroit' (press Ctrl-C to cancel)...");
+                        var result = await CallGraphQLAsync<MyResponseData>(
+                            new Uri("https://graphql-weather-api.herokuapp.com/"),
+                            HttpMethod.Post,
+                            "query ($city: String!) { getCityByName(name: $city) { name country } }",
+                            new
+                            {
+                                city = "detroit",
+                            },
+                            cts.Token);
+                        Console.WriteLine($"Found city {result.Data.GetCityByName.Name}, {result.Data.GetCityByName.Country}");
+                    }
+                    finally
+                    {
+                        Console.CancelKeyPress -= handler;
+                    }
+                }
+            }
+            catch (OperationCanceledException)
+            {
+                Console.WriteLine("Cancelled query");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Caught exception: {ex}");
+            }
             Console.WriteLine("Press enter to exit");
             Console.ReadLine();
         }
@@ -51,7 +72,7 @@ namespace Client
 
         static async Task<GraphQLResponse<TResponse>> CallGraphQLAsync<TResponse>(Uri endpoint, HttpMethod method, string query, object variables, CancellationToken cancellationToken)
         {
-            var content = new StringContent(SerializeGraphQlCall(query, variables), Encoding.UTF8, "application/json");
+            var content = new StringContent(SerializeGraphQLCall(query, variables), Encoding.UTF8, "application/json");
             var httpRequestMessage = new HttpRequestMessage
             {
                 Method = method,
@@ -65,7 +86,7 @@ namespace Client
                 if (response.IsSuccessStatusCode)
                 {
                     var responseString = await response.Content.ReadAsStringAsync(); //cancellationToken supported for .NET 5/6
-                    return DeserializeGraphQlCall<TResponse>(responseString);
+                    return DeserializeGraphQLCall<TResponse>(responseString);
                 }
                 else
                 {
@@ -83,13 +104,13 @@ namespace Client
         public class GraphQLError
         {
             public string Message { get; set; }
-            public List<GraphQlErrorLocation> Locations { get; set; }
+            public List<GraphQLErrorLocation> Locations { get; set; }
             public List<object> Path { get; set; } //either int or string
         }
 
         public class GraphQLResponse<TResponse>
         {
-            public List<GraphQlError> Errors { get; set; }
+            public List<GraphQLError> Errors { get; set; }
             public TResponse Data { get; set; }
         }
 
@@ -111,7 +132,7 @@ namespace Client
             var serializer = new JsonSerializer();
             var stringReader = new StringReader(response);
             var jsonReader = new JsonTextReader(stringReader);
-            var result = serializer.Deserialize<GraphQlResponse<TResponse>>(jsonReader);
+            var result = serializer.Deserialize<GraphQLResponse<TResponse>>(jsonReader);
             return result;
         }
     }
