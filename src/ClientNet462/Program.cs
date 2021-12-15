@@ -13,6 +13,9 @@ namespace Client
 {
     internal class Program
     {
+        /// <summary>
+        /// Program entry point with wire-up for Ctrl-C handler and exception handling
+        /// </summary>
         static async Task Main(string[] args)
         {
             try
@@ -28,24 +31,7 @@ namespace Client
                     Console.CancelKeyPress += handler;
                     try
                     {
-                        Console.WriteLine("Searching for city 'detroit' (press Ctrl-C to cancel)...");
-                        var result = await CallGraphQLAsync<MyResponseData>(
-                            new Uri("https://graphql-weather-api.herokuapp.com/"),
-                            HttpMethod.Post,
-                            "query ($city: String!) { getCityByName(name: $city) { name country } }",
-                            new
-                            {
-                                city = "detroit",
-                            },
-                            cts.Token);
-                        if (result.Errors?.Count > 0)
-                        {
-                            Console.WriteLine($"GraphQL returned errors:\n{string.Join("\n", result.Errors.Select(x => $"  - {x.Message}"))}");
-                        }
-                        else
-                        {
-                            Console.WriteLine($"Found city {result.Data.GetCityByName.Name}, {result.Data.GetCityByName.Country}");
-                        }
+                        await Main2(cts.Token);
                     }
                     finally
                     {
@@ -65,6 +51,38 @@ namespace Client
             Console.ReadLine();
         }
 
+        /// <summary>
+        /// Sample method which calls a GraphQL endpoint
+        /// </summary>
+        static async Task Main2(CancellationToken cancellationToken)
+        {
+            Console.WriteLine("Searching for city 'detroit' (press Ctrl-C to cancel)...");
+
+            // Call GraphQL endpoint here, specifying return data type, endpoint, method, query, and variables
+            var result = await CallGraphQLAsync<MyResponseData>(
+                new Uri("https://graphql-weather-api.herokuapp.com/"),
+                HttpMethod.Post,
+                "query ($city: String!) { getCityByName(name: $city) { name country } }",
+                new
+                {
+                    city = "detroit",
+                },
+                cancellationToken);
+
+            // Examine the GraphQL response to see if any errors were encountered
+            if (result.Errors?.Count > 0)
+            {
+                Console.WriteLine($"GraphQL returned errors:\n{string.Join("\n", result.Errors.Select(x => $"  - {x.Message}"))}");
+                return;
+            }
+
+            // Use the response data
+            Console.WriteLine($"Found city {result.Data.GetCityByName.Name}, {result.Data.GetCityByName.Country}");
+        }
+
+        /// <summary>
+        /// Sample data class for expected response
+        /// </summary>
         private class MyResponseData
         {
             public MyResponseGetCityByName GetCityByName { get; set; }
@@ -78,6 +96,9 @@ namespace Client
 
         private static HttpClient httpClient = new HttpClient();
 
+        /// <summary>
+        /// Calls a specified GraphQL endpoint with the specified query and variables.
+        /// </summary>
         static async Task<GraphQLResponse<TResponse>> CallGraphQLAsync<TResponse>(Uri endpoint, HttpMethod method, string query, object variables, CancellationToken cancellationToken)
         {
             var content = new StringContent(SerializeGraphQLCall(query, variables), Encoding.UTF8, "application/json");
@@ -123,6 +144,9 @@ namespace Client
             public TResponse Data { get; set; }
         }
 
+        /// <summary>
+        /// Serializes a query and variables to JSON to be sent to the GraphQL endpoint.
+        /// </summary>
         private static string SerializeGraphQLCall(string query, object variables)
         {
             var sb = new StringBuilder();
@@ -136,6 +160,9 @@ namespace Client
             return sb.ToString();
         }
 
+        /// <summary>
+        /// Deserializes a GraphQL response.
+        /// </summary>
         private static GraphQLResponse<TResponse> DeserializeGraphQLCall<TResponse>(string response)
         {
             var serializer = new JsonSerializer();
