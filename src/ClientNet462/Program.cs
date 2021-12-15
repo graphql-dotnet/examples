@@ -14,7 +14,7 @@ namespace Client
     internal class Program
     {
         /// <summary>
-        /// Program entry point with wire-up for Ctrl-C handler and exception handling
+        /// Program entry point with wire-up for Ctrl-C handler and exception handling.
         /// </summary>
         static async Task Main(string[] args)
         {
@@ -52,7 +52,7 @@ namespace Client
         }
 
         /// <summary>
-        /// Sample method which calls a GraphQL endpoint
+        /// Sample method which calls a GraphQL endpoint.
         /// </summary>
         static async Task Main2(CancellationToken cancellationToken)
         {
@@ -81,7 +81,7 @@ namespace Client
         }
 
         /// <summary>
-        /// Sample data class for expected response
+        /// Sample data class for expected response.
         /// </summary>
         private class MyResponseData
         {
