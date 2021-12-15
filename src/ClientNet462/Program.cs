@@ -2,6 +2,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -21,7 +22,7 @@ namespace Client
                     ConsoleCancelEventHandler handler = (o, e) =>
                     {
                         Console.WriteLine("Cancelling...");
-                        cts.Cancel();
+                        cts.CancelAfter(0);
                         e.Cancel = true;
                     };
                     Console.CancelKeyPress += handler;
@@ -37,7 +38,14 @@ namespace Client
                                 city = "detroit",
                             },
                             cts.Token);
-                        Console.WriteLine($"Found city {result.Data.GetCityByName.Name}, {result.Data.GetCityByName.Country}");
+                        if (result.Errors?.Count > 0)
+                        {
+                            Console.WriteLine($"GraphQL returned errors:\n{string.Join("\n", result.Errors.Select(x => $"  - {x.Message}"))}");
+                        }
+                        else
+                        {
+                            Console.WriteLine($"Found city {result.Data.GetCityByName.Name}, {result.Data.GetCityByName.Country}");
+                        }
                     }
                     finally
                     {
@@ -51,7 +59,7 @@ namespace Client
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Caught exception: {ex}");
+                Console.WriteLine($"Caught exception: {ex.Message}");
             }
             Console.WriteLine("Press enter to exit");
             Console.ReadLine();
@@ -83,7 +91,8 @@ namespace Client
             httpRequestMessage.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             using (var response = await httpClient.SendAsync(httpRequestMessage, cancellationToken))
             {
-                if (response.IsSuccessStatusCode)
+                //if (response.IsSuccessStatusCode)
+                if (response?.Content.Headers.ContentType?.MediaType == "application/json")
                 {
                     var responseString = await response.Content.ReadAsStringAsync(); //cancellationToken supported for .NET 5/6
                     return DeserializeGraphQLCall<TResponse>(responseString);
