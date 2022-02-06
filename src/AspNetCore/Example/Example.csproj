@@ -1,14 +1,24 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <LangVersion>latest</LangVersion>
+    <RestoreAdditionalProjectSources Condition="$(PublishNativeAot) == True">
+      https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet7/nuget/v3/index.json;
+      $(RestoreAdditionalProjectSources)
+    </RestoreAdditionalProjectSources>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="GraphQL.Server.Transports.AspNetCore.SystemTextJson" Version="4.2.0" />
     <PackageReference Include="GraphQL.Server.Ui.Playground" Version="4.2.0" />
+    <PackageReference Include="Microsoft.DotNet.ILCompiler" Version="7.0.0-*" Condition="$(PublishNativeAot) == True" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <RdXmlFile Include="Microsoft.AspNetCore.rd.xml" />
+    <RdXmlFile Include="GraphQL.rd.xml" />
   </ItemGroup>
 
   <ItemGroup>
