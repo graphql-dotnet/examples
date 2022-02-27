@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Directives>
+  <Application>
+    <Assembly Name="System.Text.Json">
+      <Type Name="System.Text.Json.Serialization.Converters.SmallObjectWithParameterizedConstructorConverter`5[[GraphQL.Instrumentation.ApolloTrace,GraphQL],[System.DateTime,System.Private.CoreLib],[System.Double,System.Private.CoreLib],[System.Object,System.Private.CoreLib],[System.Object,System.Private.CoreLib]]" Dynamic="Required All" />
+      <Type Name="System.Text.Json.Serialization.Converters.ListOfTConverter`2[[System.Collections.Generic.List`1[[GraphQL.Instrumentation.ApolloTrace+ResolverTrace,GraphQL]],System.Private.CoreLib],[GraphQL.Instrumentation.ApolloTrace+ResolverTrace,GraphQL]]" Dynamic="Required All" />
+    </Assembly>
+  </Application>
+</Directives>

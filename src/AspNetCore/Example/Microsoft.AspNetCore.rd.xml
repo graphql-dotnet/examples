@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Directives>
+  <Application>
+    <Assembly Name="System.Text.Json">
+      <Type Name="System.Text.Json.Serialization.Converters.DictionaryOfTKeyTValueConverter`3[[System.Collections.Generic.Dictionary`2[[System.String,System.Private.CoreLib],[System.Object,System.Private.CoreLib]],System.Private.CoreLib],[System.String,System.Private.CoreLib],[System.Object,System.Private.CoreLib]]" Dynamic="Required All" />
+    </Assembly>
+    <Assembly Name="Microsoft.AspNetCore.Mvc.Razor">
+      <Type Name="Microsoft.AspNetCore.Mvc.ApplicationParts.ConsolidatedAssemblyApplicationPartFactory" Dynamic="Required All" />
+    </Assembly>
+    <Assembly Name="Microsoft.AspNetCore.Mvc.Core" Dynamic="Required All">
+      <Type Name="Microsoft.Extensions.Internal.PropertyHelper">
+        <Method Name="CallPropertySetter" Dynamic="Required">
+          <GenericArgument Name="Microsoft.AspNetCore.Mvc.Razor.RazorPageBase, Microsoft.AspNetCore.Mvc.Razor" />
+          <GenericArgument Name="System.Boolean, System.Private.CoreLib" />
+        </Method>
+      </Type>
+    </Assembly>
+  </Application>
+</Directives>
