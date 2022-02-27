@@ -41,10 +41,7 @@ namespace Example
             if (env.IsDevelopment())
                 app.UseDeveloperExceptionPage();
 
-            // add http for Schema at default url /graphql
             app.UseGraphQL<ISchema>();
-
-            // use graphql-playground at default url /ui/playground
             app.UseGraphQLPlayground();
         }
     }

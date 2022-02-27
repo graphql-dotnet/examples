@@ -1,9 +1,8 @@
+using StarWars.Types;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using GraphQL;
-using StarWars.Types;
 
 namespace StarWars
 {
@@ -58,8 +57,10 @@ namespace StarWars
             var lookup = character.Friends;
             if (lookup != null)
             {
-                _humans.Where(h => lookup.Contains(h.Id)).Apply(friends.Add);
-                _droids.Where(d => lookup.Contains(d.Id)).Apply(friends.Add);
+                foreach (var h in _humans.Where(h => lookup.Contains(h.Id)))
+                    friends.Add(h);
+                foreach (var d in _droids.Where(d => lookup.Contains(d.Id)))
+                    friends.Add(d);
             }
             return friends;
         }

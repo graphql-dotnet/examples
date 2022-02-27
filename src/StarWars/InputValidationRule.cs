@@ -7,9 +7,7 @@ namespace StarWars
     {
         public Task<INodeVisitor> ValidateAsync(ValidationContext context)
         {
-            return Task.FromResult((INodeVisitor)new EnterLeaveListener(_ =>
-            {
-            }));
+            return Task.FromResult((INodeVisitor)new NodeVisitors());
         }
     }
 }

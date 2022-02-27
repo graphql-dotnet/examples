@@ -1,5 +1,5 @@
+using GraphQL.Instrumentation;
 using GraphQL.Types;
-using GraphQL.Utilities;
 using System;
 
 namespace StarWars
@@ -9,8 +9,10 @@ namespace StarWars
         public StarWarsSchema(IServiceProvider provider)
             : base(provider)
         {
-            Query = provider.GetRequiredService<StarWarsQuery>();
-            Mutation = provider.GetRequiredService<StarWarsMutation>();
+            Query = (StarWarsQuery)provider.GetService(typeof(StarWarsQuery)) ?? throw new InvalidOperationException();
+            Mutation = (StarWarsMutation)provider.GetService(typeof(StarWarsMutation)) ?? throw new InvalidOperationException();
+
+            FieldMiddleware.Use(new InstrumentFieldsMiddleware());
         }
     }
 }

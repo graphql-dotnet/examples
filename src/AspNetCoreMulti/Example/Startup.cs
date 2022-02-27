@@ -37,8 +37,8 @@ namespace Example
             app.UseGraphQL<DogSchema>("/api/dogs");
             app.UseGraphQL<CatSchema>("/api/cats");
 
-            app.UseGraphQLPlayground(new GraphQLPlaygroundOptions { GraphQLEndPoint = "/api/dogs", Path = "/ui/dogs" });
-            app.UseGraphQLPlayground(new GraphQLPlaygroundOptions { GraphQLEndPoint = "/api/cats", Path = "/ui/cats" });
+            app.UseGraphQLPlayground(new PlaygroundOptions { GraphQLEndPoint = "/api/dogs", Path = "/ui/dogs" });
+            app.UseGraphQLPlayground(new PlaygroundOptions { GraphQLEndPoint = "/api/cats", Path = "/ui/cats" });
         }
     }
 }
