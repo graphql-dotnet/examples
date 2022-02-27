@@ -1,5 +1,5 @@
 using GraphQL;
-using GraphQL.Server.Internal;
+using GraphQL.Server;
 using GraphQL.Types;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

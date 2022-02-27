@@ -4,7 +4,7 @@
 // <author>https://github.com/tpeczek</author>
 using GraphQL;
 using GraphQL.NewtonsoftJson;
-using GraphQL.Server.Internal;
+using GraphQL.Server;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;

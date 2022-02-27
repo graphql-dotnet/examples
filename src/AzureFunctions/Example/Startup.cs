@@ -1,5 +1,4 @@
 using GraphQL;
-using GraphQL.Server;
 using GraphQL.Types;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;

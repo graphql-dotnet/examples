@@ -27,13 +27,13 @@ namespace Example
             services.AddLogging(builder => builder.AddConsole());
             services.AddHttpContextAccessor();
 
-            services.AddGraphQL(options =>
-            {
-                options.EnableMetrics = true;
-            })
-            .AddErrorInfoProvider(opt => opt.ExposeExceptionStackTrace = true)
-            .AddSystemTextJson()
-            .AddUserContextBuilder(httpContext => new GraphQLUserContext { User = httpContext.User });
+#pragma warning disable CS0612 // Type or member is obsolete
+            services
+                .AddGraphQL(options => options.EnableMetrics = true)
+                .AddErrorInfoProvider(opt => opt.ExposeExceptionStackTrace = true)
+                .AddSystemTextJson()
+                .AddUserContextBuilder(httpContext => new GraphQLUserContext { User = httpContext.User });
+#pragma warning restore CS0612 // Type or member is obsolete
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

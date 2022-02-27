@@ -47,7 +47,6 @@ namespace GraphQL.GraphiQL.Controllers
                 _.Inputs = inputs;
 
                 _.ComplexityConfiguration = new ComplexityConfiguration { MaxDepth = 15 };
-                _.FieldMiddleware.Use<InstrumentFieldsMiddleware>();
 
             }).ConfigureAwait(false);
 
