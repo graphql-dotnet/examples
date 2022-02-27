@@ -54,6 +54,8 @@ namespace Example
         {
             var request = Deserialize<GraphQLRequest>(context.Request.Body);
 
+            var start = DateTime.UtcNow;
+
             var result = await _executer.ExecuteAsync(_ =>
             {
                 _.Schema = schema;
@@ -61,13 +63,15 @@ namespace Example
                 _.OperationName = request?.OperationName;
                 _.Inputs = request?.Variables.ToInputs();
                 _.UserContext = _settings.BuildUserContext?.Invoke(context);
-                _.ValidationRules = DocumentValidator.CoreRules.Concat(new [] { new InputValidationRule() });
+                _.ValidationRules = DocumentValidator.CoreRules.Concat(new[] { new InputValidationRule() });
                 _.EnableMetrics = _settings.EnableMetrics;
-                if (_settings.EnableMetrics)
-                {
-                    _.FieldMiddleware.Use<InstrumentFieldsMiddleware>();
-                }
             });
+
+
+            if (_settings.EnableMetrics)
+            {
+                result.EnrichWithApolloTracing(start);
+            }
 
             await WriteResponseAsync(context, result);
         }
