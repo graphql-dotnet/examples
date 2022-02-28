@@ -1,12 +1,12 @@
 using GraphQL;
-using GraphQL.Types;
+using GraphQL.MicrosoftDI;
+using GraphQL.SystemTextJson;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using StarWars;
-using StarWars.Types;
 
 namespace Example
 {
@@ -14,19 +14,24 @@ namespace Example
     {
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<IDocumentExecuter, DocumentExecuter>();
-            services.AddSingleton<IDocumentWriter, GraphQL.SystemTextJson.DocumentWriter>();
+            services.AddGraphQL()
+                .AddSchema<StarWarsSchema>()
+                .AddSystemTextJson()
+                .AddValidationRule<InputValidationRule>()
+                .AddGraphTypes(typeof(StarWarsSchema).Assembly)
+                .AddMetrics(_ => false, (services, _) => services.GetRequiredService<GraphQLSettings>().EnableMetrics);
 
             services.AddSingleton<StarWarsData>();
-            services.AddSingleton<StarWarsQuery>();
-            services.AddSingleton<StarWarsMutation>();
-            services.AddSingleton<HumanType>();
-            services.AddSingleton<HumanInputType>();
-            services.AddSingleton<DroidType>();
-            services.AddSingleton<CharacterInterface>();
-            services.AddSingleton<EpisodeEnum>();
-            services.AddSingleton<ISchema, StarWarsSchema>();
-
+            services.AddSingleton<GraphQLMiddleware>();
+            services.AddSingleton(new GraphQLSettings
+            {
+                Path = "/api/graphql",
+                BuildUserContext = ctx => new GraphQLUserContext
+                {
+                    User = ctx.User
+                },
+                EnableMetrics = true
+            });
             services.AddLogging(builder => builder.AddConsole());
             services.AddHttpContextAccessor();
         }
@@ -36,15 +41,7 @@ namespace Example
             if (env.IsDevelopment())
                 app.UseDeveloperExceptionPage();
 
-            app.UseMiddleware<GraphQLMiddleware>(new GraphQLSettings
-            {
-                Path = "/api/graphql",
-                BuildUserContext = ctx => new GraphQLUserContext
-                {
-                    User = ctx.User
-                },
-                EnableMetrics = true
-            });
+            app.UseMiddleware<GraphQLMiddleware>();
 
             app.UseDefaultFiles();
             app.UseStaticFiles();

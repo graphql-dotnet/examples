@@ -1,47 +1,47 @@
 using GraphQL;
 using GraphQL.Instrumentation;
-using GraphQL.NewtonsoftJson;
+using GraphQL.SystemTextJson;
 using GraphQL.Types;
 using GraphQL.Validation;
 using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json;
 using StarWars;
 using System;
-using System.IO;
 using System.Linq;
 using System.Net;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace Example
 {
-    public class GraphQLMiddleware
+    public class GraphQLMiddleware : IMiddleware
     {
-        private readonly RequestDelegate _next;
         private readonly GraphQLSettings _settings;
         private readonly IDocumentExecuter _executer;
         private readonly IDocumentWriter _writer;
+        private readonly ISchema _schema;
+        private static readonly JsonSerializerOptions _jsonSerializerOptions = new() { PropertyNameCaseInsensitive = true };
 
         public GraphQLMiddleware(
-            RequestDelegate next,
             GraphQLSettings settings,
             IDocumentExecuter executer,
-            IDocumentWriter writer)
+            IDocumentWriter writer,
+            ISchema schema)
         {
-            _next = next;
             _settings = settings;
             _executer = executer;
             _writer = writer;
+            _schema = schema;
         }
 
-        public async Task Invoke(HttpContext context, ISchema schema)
+        public async Task InvokeAsync(HttpContext context, RequestDelegate next)
         {
             if (!IsGraphQLRequest(context))
             {
-                await _next(context);
+                await next(context);
                 return;
             }
 
-            await ExecuteAsync(context, schema);
+            await ExecuteAsync(context);
         }
 
         private bool IsGraphQLRequest(HttpContext context)
@@ -50,23 +50,23 @@ namespace Example
                 && string.Equals(context.Request.Method, "POST", StringComparison.OrdinalIgnoreCase);
         }
 
-        private async Task ExecuteAsync(HttpContext context, ISchema schema)
+        private async Task ExecuteAsync(HttpContext context)
         {
-            var request = Deserialize<GraphQLRequest>(context.Request.Body);
+            var request = await JsonSerializer.DeserializeAsync<GraphQLRequest>(context.Request.Body, _jsonSerializerOptions, context.RequestAborted);
 
             var start = DateTime.UtcNow;
 
             var result = await _executer.ExecuteAsync(_ =>
             {
-                _.Schema = schema;
+                _.Schema = _schema;
                 _.Query = request?.Query;
                 _.OperationName = request?.OperationName;
                 _.Inputs = request?.Variables.ToInputs();
                 _.UserContext = _settings.BuildUserContext?.Invoke(context);
-                _.ValidationRules = DocumentValidator.CoreRules.Concat(new[] { new InputValidationRule() });
                 _.EnableMetrics = _settings.EnableMetrics;
+                _.RequestServices = context.RequestServices;
+                _.CancellationToken = context.RequestAborted;
             });
-
 
             if (_settings.EnableMetrics)
             {
@@ -81,17 +81,7 @@ namespace Example
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = result.Errors?.Any() == true ? (int)HttpStatusCode.BadRequest : (int)HttpStatusCode.OK;
 
-            await _writer.WriteAsync(context.Response.Body, result);
-        }
-
-        public static T Deserialize<T>(Stream s)
-        {
-            using (var reader = new StreamReader(s))
-            using (var jsonReader = new JsonTextReader(reader))
-            {
-                var ser = new JsonSerializer();
-                return ser.Deserialize<T>(jsonReader);
-            }
+            await _writer.WriteAsync(context.Response.Body, result, context.RequestAborted);
         }
     }
 }

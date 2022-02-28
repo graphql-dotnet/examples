@@ -1,3 +1,4 @@
+using GraphQL;
 using GraphQL.Server;
 using GraphQL.Server.Ui.Playground;
 using Microsoft.AspNetCore.Builder;
@@ -12,21 +13,17 @@ namespace Example
     {
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<DogSchema>();
-            services.AddSingleton<DogQuery>();
-            services.AddSingleton<CatSchema>();
-            services.AddSingleton<CatQuery>();
+            GraphQL.MicrosoftDI.GraphQLBuilderExtensions.AddGraphQL(services)
+                .AddServer(true, opt => opt.EnableMetrics = true)
+                .AddUserContextBuilder(httpContext => new GraphQLUserContext { User = httpContext.User })
+                .AddSchema<CatSchema>()
+                .AddSchema<DogSchema>()
+                .AddSystemTextJson()
+                .AddErrorInfoProvider(opt => opt.ExposeExceptionStackTrace = true)
+                .AddGraphTypes();
 
             services.AddLogging(builder => builder.AddConsole());
             services.AddHttpContextAccessor();
-
-#pragma warning disable CS0612 // Type or member is obsolete
-            services
-                .AddGraphQL(options => options.EnableMetrics = true)
-                .AddErrorInfoProvider(opt => opt.ExposeExceptionStackTrace = true)
-                .AddSystemTextJson()
-                .AddUserContextBuilder(httpContext => new GraphQLUserContext { User = httpContext.User });
-#pragma warning restore CS0612 // Type or member is obsolete
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
