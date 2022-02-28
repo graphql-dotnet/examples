@@ -1,4 +1,4 @@
-using Newtonsoft.Json.Linq;
+using System.Text.Json;
 
 namespace Example
 {
@@ -8,6 +8,6 @@ namespace Example
 
         public string Query { get; set; }
 
-        public JObject Variables { get; set; }
+        public JsonElement Variables { get; set; }
     }
 }
