@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace Example.Controllers
 {
+    [ApiController]
     [Route("api")]
     public class ApiController : Controller
     {
