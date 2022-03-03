@@ -34,7 +34,10 @@ namespace Example.Controllers
                 s.Inputs = request.Variables.ToInputs();
                 s.OperationName = request.OperationName;
                 s.RequestServices = HttpContext.RequestServices;
-                s.UserContext = new GraphQLUserContext();
+                s.UserContext = new GraphQLUserContext()
+                {
+                    User = HttpContext.User,
+                };
                 s.CancellationToken = HttpContext.RequestAborted;
             });
 
