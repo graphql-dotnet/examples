@@ -19,9 +19,10 @@ namespace Example
         public async Task ExecuteResultAsync(ActionContext context)
         {
             var writer = context.HttpContext.RequestServices.GetRequiredService<IDocumentWriter>();
-            context.HttpContext.Response.ContentType = "application/json";
-            context.HttpContext.Response.StatusCode = _executionResult.Errors?.Any() == true ? (int)HttpStatusCode.BadRequest : (int)HttpStatusCode.OK;
-            await writer.WriteAsync(context.HttpContext.Response.Body, _executionResult, context.HttpContext.RequestAborted);
+            var response = context.HttpContext.Response;
+            response.ContentType = "application/json";
+            response.StatusCode = _executionResult.Errors?.Any() == true ? (int)HttpStatusCode.BadRequest : (int)HttpStatusCode.OK;
+            await writer.WriteAsync(response.Body, _executionResult, context.HttpContext.RequestAborted);
         }
     }
 }
