@@ -29,7 +29,8 @@ namespace Example.Controllers
         {
             var startTime = DateTime.UtcNow;
 
-            var result = await _documentExecuter.ExecuteAsync(s => {
+            var result = await _documentExecuter.ExecuteAsync(s =>
+            {
                 s.Schema = _schema;
                 s.Query = request.Query;
                 s.Inputs = request.Variables.ToInputs();
