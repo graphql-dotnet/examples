@@ -1,8 +1,1 @@
-# ASP.NET Core GraphQL Example
-
-```
-> npm install
-> npm run webpack
-> npm start
-> browse to http://localhost:3000
-```
+# ASP.NET Core MVC / Controller GraphQL Example
