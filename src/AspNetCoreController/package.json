@@ -1,0 +1,33 @@
+{
+  "name": "gql-example",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Joe McBride <joe@uicraftsman.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "bash ./run.sh",
+    "restore": "dotnet restore Example",
+    "webpack": "webpack --progress"
+  },
+  "dependencies": {
+    "axios": "^0.21.2",
+    "graphiql": "^1.4.7",
+    "graphql": "^0.13.2",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.4.4",
+    "@babel/core": "^7.4.4",
+    "@babel/preset-env": "^7.4.4",
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^8.0.5",
+    "css-loader": "^0.28.11",
+    "ignore-loader": "^0.1.2",
+    "mini-css-extract-plugin": "^0.6.0",
+    "postcss-loader": "^3.0.0",
+    "style-loader": "^0.23.1",
+    "webpack": "^4.31.0",
+    "webpack-cli": "^3.3.2"
+  }
+}
