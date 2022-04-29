@@ -3,8 +3,6 @@
 // </copyright>
 // <author>https://github.com/tpeczek</author>
 using GraphQL;
-using GraphQL.NewtonsoftJson;
-using GraphQL.Server;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -26,7 +24,7 @@ namespace Example
         private const string GRAPHQL_MEDIA_TYPE = "application/graphql";
         private const string FORM_URLENCODED_MEDIA_TYPE = "application/x-www-form-urlencoded";
 
-        public async static Task<ExecutionResult> ExecuteAsync(this IGraphQLExecuter graphQLExecuter, HttpRequest request, ILogger logger)
+        public async static Task<ExecutionResult> ExecuteAsync(this IDocumentExecuter documentExecuter, HttpRequest request, ILogger logger)
         {
             string? operationName = null;
             string query;
@@ -67,7 +65,14 @@ namespace Example
             logger.LogDebug("got graphql query: {operationName}, {query}, {variables}", operationName, query, variables);
             var stopwatch = new Stopwatch();
             stopwatch.Start();
-            var executonResult = await graphQLExecuter.ExecuteAsync(operationName, query, variables, null, request.HttpContext.RequestServices, request.HttpContext.RequestAborted);
+            var executonResult = await documentExecuter.ExecuteAsync(new ExecutionOptions
+            {
+                Query = query,
+                OperationName = operationName,
+                Variables = variables,
+                RequestServices = request.HttpContext.RequestServices,
+                CancellationToken = request.HttpContext.RequestAborted,
+            });
             stopwatch.Stop();
             logger.LogMetric($"graphql.{operationName}", stopwatch.ElapsedMilliseconds);
             return executonResult;

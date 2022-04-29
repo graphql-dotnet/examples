@@ -5,8 +5,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="GraphQL.NewtonsoftJson" Version="4.7.1" />
-    <PackageReference Include="GraphQL.Server.Core" Version="5.2.0" />
+    <PackageReference Include="GraphQL.NewtonsoftJson" Version="5.1.1" />
+    <PackageReference Include="GraphQL.MicrosoftDI" Version="5.1.1" />
     <PackageReference Include="Microsoft.Azure.Functions.Extensions" Version="1.1.0" />
     <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="3.0.2" />
   </ItemGroup>

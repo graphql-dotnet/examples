@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using GraphQL;
 using GraphQL.Types;
 using StarWars.Types;
@@ -11,16 +12,16 @@ namespace StarWars
         {
             Name = "Query";
 
-            Field<CharacterInterface>("hero", resolve: context => data.GetDroidByIdAsync("3"));
-            Field<HumanType>(
+            FieldAsync<CharacterInterface>("hero", resolve: async context => await data.GetDroidByIdAsync("3"));
+            FieldAsync<HumanType>(
                 "human",
                 arguments: new QueryArguments(
                     new QueryArgument<NonNullGraphType<StringGraphType>> { Name = "id", Description = "id of the human" }
                 ),
-                resolve: context => data.GetHumanByIdAsync(context.GetArgument<string>("id"))
+                resolve: async context => await data.GetHumanByIdAsync(context.GetArgument<string>("id"))
             );
 
-            Func<IResolveFieldContext, string, object> func = (context, id) => data.GetDroidByIdAsync(id);
+            Func<IResolveFieldContext, string, Task<Droid>> func = (context, id) => data.GetDroidByIdAsync(id);
 
             FieldDelegate<DroidType>(
                 "droid",

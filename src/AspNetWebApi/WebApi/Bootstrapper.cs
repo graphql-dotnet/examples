@@ -19,7 +19,7 @@ namespace WebApi
         {
             var container = new SimpleContainer();
             container.Singleton<IDocumentExecuter>(new DocumentExecuter());
-            container.Singleton<IDocumentWriter>(new GraphQL.NewtonsoftJson.DocumentWriter(true));
+            container.Singleton<IGraphQLSerializer>(new GraphQL.NewtonsoftJson.GraphQLSerializer(true));
 
             container.Singleton(new StarWarsData());
             container.Register<StarWarsQuery>();

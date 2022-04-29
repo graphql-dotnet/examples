@@ -1,4 +1,5 @@
 using GraphQL;
+using GraphQL.Instrumentation;
 using GraphQL.MicrosoftDI;
 using GraphQL.SystemTextJson;
 using Microsoft.AspNetCore.Builder;
@@ -23,18 +24,23 @@ namespace Example
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddGraphQL()
+            services.AddGraphQL(b => b
                 .AddSchema<StarWarsSchema>()
                 .AddSystemTextJson()
                 .AddValidationRule<InputValidationRule>()
                 .AddGraphTypes(typeof(StarWarsSchema).Assembly)
-                .AddMetrics(_ => true, (provider, _) => provider.GetRequiredService<IOptions<GraphQLSettings>>().Value.EnableMetrics);
+                .AddDocumentExecuter<ApolloTracingDocumentExecuter>()
+                .AddMetrics(_ => true, (provider, _) => provider.GetRequiredService<IOptions<GraphQLSettings>>().Value.EnableMetrics));
 
             services.Configure<GraphQLSettings>(Configuration.GetSection("GraphQLSettings"));
             services.AddSingleton<StarWarsData>();
             services.AddLogging(builder => builder.AddConsole());
             services.AddHttpContextAccessor();
-            services.AddControllersWithViews();
+            services.AddControllersWithViews()
+                .AddJsonOptions(opts =>
+                {
+                    opts.JsonSerializerOptions.Converters.Add(new InputsJsonConverter());
+                });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

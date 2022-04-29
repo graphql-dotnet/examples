@@ -14,12 +14,12 @@ namespace Example
     {
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddGraphQL()
+            services.AddGraphQL(b => b
                 .AddSchema<StarWarsSchema>()
                 .AddSystemTextJson()
                 .AddValidationRule<InputValidationRule>()
                 .AddGraphTypes(typeof(StarWarsSchema).Assembly)
-                .AddMetrics(_ => false, (services, _) => services.GetRequiredService<GraphQLSettings>().EnableMetrics);
+                .AddMetrics(_ => false, (services, _) => services.GetRequiredService<GraphQLSettings>().EnableMetrics));
 
             services.AddSingleton<StarWarsData>();
             services.AddSingleton<GraphQLMiddleware>();

@@ -1,5 +1,3 @@
-using GraphQL.Instrumentation;
-using GraphQL.NewtonsoftJson;
 using GraphQL.Types;
 using GraphQL.Validation.Complexity;
 using System.Net;
@@ -12,18 +10,15 @@ namespace GraphQL.GraphiQL.Controllers
 {
     public class GraphQLController : ApiController
     {
-        private readonly ISchema _schema;
         private readonly IDocumentExecuter _executer;
-        private readonly IDocumentWriter _writer;
+        private readonly IGraphQLSerializer _serializer;
 
         public GraphQLController(
-            IDocumentExecuter executer,
-            IDocumentWriter writer,
-            ISchema schema)
+            IDocumentExecuter<ISchema> executer,
+            IGraphQLSerializer serializer)
         {
             _executer = executer;
-            _writer = writer;
-            _schema = schema;
+            _serializer = serializer;
         }
 
         // This will display an example error
@@ -36,15 +31,14 @@ namespace GraphQL.GraphiQL.Controllers
         [HttpPost]
         public async Task<HttpResponseMessage> PostAsync(HttpRequestMessage request, GraphQLQuery query)
         {
-            var inputs = query.Variables.ToInputs();
+            var inputs = _serializer.ReadNode<Inputs>(query.Variables);
             var queryToExecute = query.Query;
 
             var result = await _executer.ExecuteAsync(_ =>
             {
-                _.Schema = _schema;
                 _.Query = queryToExecute;
                 _.OperationName = query.OperationName;
-                _.Inputs = inputs;
+                _.Variables = inputs;
 
                 _.ComplexityConfiguration = new ComplexityConfiguration { MaxDepth = 15 };
 
@@ -54,10 +48,10 @@ namespace GraphQL.GraphiQL.Controllers
                 ? HttpStatusCode.BadRequest
                 : HttpStatusCode.OK;
 
-            var json = await _writer.WriteToStringAsync(result);
-
             var response = request.CreateResponse(httpResult);
-            response.Content = new StringContent(json, Encoding.UTF8, "application/json");
+            response.Content = new PushStreamContent(
+                (outputStream, httpContent, transportContext) => _serializer.WriteAsync(outputStream, result),
+                "application/graphql+json");
 
             return response;
         }

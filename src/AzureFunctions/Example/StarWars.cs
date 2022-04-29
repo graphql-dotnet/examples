@@ -1,5 +1,4 @@
 using GraphQL;
-using GraphQL.Server;
 using GraphQL.Types;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -12,11 +11,11 @@ namespace Example
 {
     public class StarWars
     {
-        private readonly IGraphQLExecuter<ISchema> graphQLExecuter;
+        private readonly IDocumentExecuter<ISchema> documentExecuter;
 
-        public StarWars(IGraphQLExecuter<ISchema> graphQLExecuter)
+        public StarWars(IDocumentExecuter<ISchema> graphQLExecuter)
         {
-            this.graphQLExecuter = graphQLExecuter;
+            this.documentExecuter = graphQLExecuter;
         }
 
         [FunctionName("graphql")]
@@ -26,7 +25,7 @@ namespace Example
         {
             try
             {
-                ExecutionResult executionResult = await graphQLExecuter.ExecuteAsync(req, log);
+                ExecutionResult executionResult = await documentExecuter.ExecuteAsync(req, log);
 
                 if (executionResult.Errors != null)
                 {

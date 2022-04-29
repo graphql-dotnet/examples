@@ -1,6 +1,7 @@
 using GraphQL;
 using GraphQL.Instrumentation;
 using GraphQL.SystemTextJson;
+using GraphQL.Transport;
 using GraphQL.Types;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -33,7 +34,7 @@ namespace Example.Controllers
             {
                 s.Schema = _schema;
                 s.Query = request.Query;
-                s.Inputs = request.Variables.ToInputs();
+                s.Variables = request.Variables;
                 s.OperationName = request.OperationName;
                 s.RequestServices = HttpContext.RequestServices;
                 s.UserContext = new GraphQLUserContext

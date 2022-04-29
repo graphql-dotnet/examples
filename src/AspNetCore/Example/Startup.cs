@@ -1,5 +1,7 @@
 using GraphQL;
+using GraphQL.MicrosoftDI;
 using GraphQL.Server;
+using GraphQL.SystemTextJson;
 using GraphQL.Types;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -14,13 +16,13 @@ namespace Example
     {
         public void ConfigureServices(IServiceCollection services)
         {
-            GraphQL.MicrosoftDI.GraphQLBuilderExtensions.AddGraphQL(services)
-                .AddServer(true, options => options.EnableMetrics = true)
+            services.AddGraphQL(b => b
+                .AddHttpMiddleware<ISchema>()
                 .AddUserContextBuilder(httpContext => new GraphQLUserContext { User = httpContext.User })
                 .AddSystemTextJson()
                 .AddErrorInfoProvider(opt => opt.ExposeExceptionStackTrace = true)
                 .AddSchema<StarWarsSchema>()
-                .AddGraphTypes(typeof(StarWarsSchema).Assembly);
+                .AddGraphTypes(typeof(StarWarsSchema).Assembly));
 
             services.AddSingleton<StarWarsData>();
             services.AddLogging(builder => builder.AddConsole());
