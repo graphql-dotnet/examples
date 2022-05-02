@@ -17,11 +17,11 @@ namespace Example
 
         public async Task ExecuteResultAsync(ActionContext context)
         {
-            var writer = context.HttpContext.RequestServices.GetRequiredService<IGraphQLSerializer>();
+            var serializer = context.HttpContext.RequestServices.GetRequiredService<IGraphQLSerializer>();
             var response = context.HttpContext.Response;
             response.ContentType = "application/json";
             response.StatusCode = _executionResult.Data == null && !_executionResult.Executed ? (int)HttpStatusCode.BadRequest : (int)HttpStatusCode.OK;
-            await writer.WriteAsync(response.Body, _executionResult, context.HttpContext.RequestAborted);
+            await serializer.WriteAsync(response.Body, _executionResult, context.HttpContext.RequestAborted);
         }
     }
 }
