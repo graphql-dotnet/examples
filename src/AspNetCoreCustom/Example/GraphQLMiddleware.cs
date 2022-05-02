@@ -71,7 +71,7 @@ namespace Example
         private async Task WriteResponseAsync(HttpContext context, ExecutionResult result)
         {
             context.Response.ContentType = "application/graphql+json";
-            context.Response.StatusCode = !result.Executed ? (int)HttpStatusCode.BadRequest : (int)HttpStatusCode.OK;
+            context.Response.StatusCode = result.Executed ? (int)HttpStatusCode.OK : (int)HttpStatusCode.BadRequest;
 
             await _serializer.WriteAsync(context.Response.Body, result, context.RequestAborted);
         }
