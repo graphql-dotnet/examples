@@ -44,9 +44,9 @@ namespace GraphQL.GraphiQL.Controllers
 
             }).ConfigureAwait(false);
 
-            var httpResult = !result.Executed
-                ? HttpStatusCode.BadRequest
-                : HttpStatusCode.OK;
+            var httpResult = result.Executed
+                ? HttpStatusCode.OK
+                : HttpStatusCode.BadRequest;
 
             var response = request.CreateResponse(httpResult);
             response.Content = new PushStreamContent(
