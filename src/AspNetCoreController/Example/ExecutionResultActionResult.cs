@@ -20,7 +20,7 @@ namespace Example
             var serializer = context.HttpContext.RequestServices.GetRequiredService<IGraphQLSerializer>();
             var response = context.HttpContext.Response;
             response.ContentType = "application/json";
-            response.StatusCode = _executionResult.Data == null && !_executionResult.Executed ? (int)HttpStatusCode.BadRequest : (int)HttpStatusCode.OK;
+            response.StatusCode = _executionResult.Executed ? (int)HttpStatusCode.OK : (int)HttpStatusCode.BadRequest;
             await serializer.WriteAsync(response.Body, _executionResult, context.HttpContext.RequestAborted);
         }
     }
