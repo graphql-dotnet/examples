@@ -44,7 +44,7 @@ namespace GraphQL.GraphiQL.Controllers
 
             }).ConfigureAwait(false);
 
-            var httpResult = result.Errors?.Count > 0
+            var httpResult = !result.Executed
                 ? HttpStatusCode.BadRequest
                 : HttpStatusCode.OK;
 
