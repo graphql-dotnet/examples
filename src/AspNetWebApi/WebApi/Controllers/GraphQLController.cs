@@ -31,22 +31,22 @@ namespace GraphQL.GraphiQL.Controllers
         [HttpPost]
         public async Task<HttpResponseMessage> PostAsync(HttpRequestMessage request, GraphQLQuery query)
         {
-            var inputs = _serializer.ReadNode<Inputs>(query.Variables);
+            var variables = _serializer.ReadNode<Inputs>(query.Variables);
             var queryToExecute = query.Query;
 
             var result = await _executer.ExecuteAsync(_ =>
             {
                 _.Query = queryToExecute;
                 _.OperationName = query.OperationName;
-                _.Variables = inputs;
+                _.Variables = variables;
 
                 _.ComplexityConfiguration = new ComplexityConfiguration { MaxDepth = 15 };
 
             }).ConfigureAwait(false);
 
-            var httpResult = result.Errors?.Count > 0
-                ? HttpStatusCode.BadRequest
-                : HttpStatusCode.OK;
+            var httpResult = result.Executed
+                ? HttpStatusCode.OK
+                : HttpStatusCode.BadRequest;
 
             var response = request.CreateResponse(httpResult);
             response.Content = new PushStreamContent(
