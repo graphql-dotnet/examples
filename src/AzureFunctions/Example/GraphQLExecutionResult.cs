@@ -29,7 +29,7 @@ namespace Example
                 throw new ArgumentNullException(nameof(context));
             }
 
-            IGraphQLSerializer documentWriter = context.HttpContext.RequestServices.GetRequiredService<IGraphQLSerializer>();
+            IGraphQLSerializer documentSerializer = context.HttpContext.RequestServices.GetRequiredService<IGraphQLSerializer>();
 
             HttpResponse response = context.HttpContext.Response;
             response.ContentType = CONTENT_TYPE;
@@ -38,7 +38,7 @@ namespace Example
             // Azure functions 3 disallowing async IO and newtonsoft json is not able to
             // make real async IO, we need copy to a MemoryStream.
             // After graphql has switch to System.Text.Json this can be written directly to response.Body
-            await documentWriter.WriteAsync(response.Body, _executionResult);
+            await documentSerializer.WriteAsync(response.Body, _executionResult);
         }
     }
 }
