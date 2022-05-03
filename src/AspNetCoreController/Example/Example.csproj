@@ -7,8 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="GraphQL.MicrosoftDI" Version="4.7.1" />
-    <PackageReference Include="GraphQL.SystemTextJson" Version="4.7.1" />
+    <PackageReference Include="GraphQL.MicrosoftDI" Version="5.1.1" />
+    <PackageReference Include="GraphQL.SystemTextJson" Version="5.1.1" />
   </ItemGroup>
 
   <ItemGroup>

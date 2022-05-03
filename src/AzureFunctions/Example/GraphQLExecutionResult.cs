@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.IO;
 using System.Threading.Tasks;
 
 namespace Example
@@ -30,7 +29,7 @@ namespace Example
                 throw new ArgumentNullException(nameof(context));
             }
 
-            IDocumentWriter documentWriter = context.HttpContext.RequestServices.GetRequiredService<IDocumentWriter>();
+            IGraphQLSerializer documentSerializer = context.HttpContext.RequestServices.GetRequiredService<IGraphQLSerializer>();
 
             HttpResponse response = context.HttpContext.Response;
             response.ContentType = CONTENT_TYPE;
@@ -39,10 +38,7 @@ namespace Example
             // Azure functions 3 disallowing async IO and newtonsoft json is not able to
             // make real async IO, we need copy to a MemoryStream.
             // After graphql has switch to System.Text.Json this can be written directly to response.Body
-            using var stream = new MemoryStream();
-            await documentWriter.WriteAsync(stream, _executionResult);
-            stream.Position = 0;
-            await stream.CopyToAsync(response.Body);
+            await documentSerializer.WriteAsync(response.Body, _executionResult);
         }
     }
 }

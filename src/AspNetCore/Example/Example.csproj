@@ -11,9 +11,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="GraphQL.MicrosoftDI" Version="4.7.1" />
-    <PackageReference Include="GraphQL.Server.Transports.AspNetCore.SystemTextJson" Version="5.2.0" />
-    <PackageReference Include="GraphQL.Server.Ui.Playground" Version="5.2.0" />
+    <PackageReference Include="GraphQL.MicrosoftDI" Version="5.1.1" />
+    <PackageReference Include="GraphQL.Server.Transports.AspNetCore" Version="6.0.0" />
+    <PackageReference Include="GraphQL.Server.Ui.Playground" Version="6.0.0" />
+    <PackageReference Include="GraphQL.SystemTextJson" Version="5.1.1" />
     <PackageReference Include="Microsoft.DotNet.ILCompiler" Version="7.0.0-*" Condition="$(PublishNativeAot) == True" />
   </ItemGroup>
 

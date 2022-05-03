@@ -1,6 +1,9 @@
 using GraphQL;
+using GraphQL.MicrosoftDI;
 using GraphQL.Server;
 using GraphQL.Server.Ui.Playground;
+using GraphQL.SystemTextJson;
+using GraphQL.Types;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,14 +16,15 @@ namespace Example
     {
         public void ConfigureServices(IServiceCollection services)
         {
-            GraphQL.MicrosoftDI.GraphQLBuilderExtensions.AddGraphQL(services)
-                .AddServer(true, opt => opt.EnableMetrics = true)
+            services.AddGraphQL(b => b
+                .AddHttpMiddleware<DogSchema>()
+                .AddHttpMiddleware<CatSchema>()
                 .AddUserContextBuilder(httpContext => new GraphQLUserContext { User = httpContext.User })
                 .AddSchema<CatSchema>()
                 .AddSchema<DogSchema>()
                 .AddSystemTextJson()
                 .AddErrorInfoProvider(opt => opt.ExposeExceptionStackTrace = true)
-                .AddGraphTypes();
+                .AddGraphTypes());
 
             services.AddLogging(builder => builder.AddConsole());
             services.AddHttpContextAccessor();
