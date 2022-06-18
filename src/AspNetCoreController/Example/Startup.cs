@@ -29,8 +29,7 @@ namespace Example
                 .AddSystemTextJson()
                 .AddValidationRule<InputValidationRule>()
                 .AddGraphTypes(typeof(StarWarsSchema).Assembly)
-                .AddDocumentExecuter<ApolloTracingDocumentExecuter>()
-                .AddMetrics(_ => true, (provider, _) => provider.GetRequiredService<IOptions<GraphQLSettings>>().Value.EnableMetrics));
+                .AddApolloTracing(_ => true));
 
             services.Configure<GraphQLSettings>(Configuration.GetSection("GraphQLSettings"));
             services.AddSingleton<StarWarsData>();
