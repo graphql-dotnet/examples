@@ -1,5 +1,5 @@
 using GraphQL;
-using GraphQL.Instrumentation;
+using GraphQL.Caching;
 using GraphQL.MicrosoftDI;
 using GraphQL.SystemTextJson;
 using Microsoft.AspNetCore.Builder;
@@ -8,7 +8,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using StarWars;
 
 namespace Example
@@ -29,8 +28,8 @@ namespace Example
                 .AddSystemTextJson()
                 .AddValidationRule<InputValidationRule>()
                 .AddGraphTypes(typeof(StarWarsSchema).Assembly)
-                .AddDocumentExecuter<ApolloTracingDocumentExecuter>()
-                .AddMetrics(_ => true, (provider, _) => provider.GetRequiredService<IOptions<GraphQLSettings>>().Value.EnableMetrics));
+                .AddMemoryCache()
+                .AddApolloTracing(_ => true));
 
             services.Configure<GraphQLSettings>(Configuration.GetSection("GraphQLSettings"));
             services.AddSingleton<StarWarsData>();
