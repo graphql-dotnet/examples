@@ -1,3 +1,5 @@
+using Example.GraphQL;
+using Example.Repositories;
 using GraphQL;
 using GraphQL.MicrosoftDI;
 using GraphQL.Server;
@@ -16,6 +18,12 @@ namespace Example
     {
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<DogRepository>();
+            services.AddScoped<DogImageDetailsRepository>();
+            services.AddScoped<CatRepository>();
+
+            services.AddQueries();
+
             services.AddGraphQL(b => b
                 .AddHttpMiddleware<DogSchema>()
                 .AddHttpMiddleware<CatSchema>()
@@ -28,6 +36,10 @@ namespace Example
 
             services.AddLogging(builder => builder.AddConsole());
             services.AddHttpContextAccessor();
+            services.AddHttpClient("DogsApi", x =>
+            {
+                x.BaseAddress = new System.Uri("https://dog.ceo/");
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -40,6 +52,17 @@ namespace Example
 
             app.UseGraphQLPlayground(new PlaygroundOptions { GraphQLEndPoint = "/api/dogs" }, "/ui/dogs");
             app.UseGraphQLPlayground(new PlaygroundOptions { GraphQLEndPoint = "/api/cats" }, "/ui/cats");
+        }        
+    }
+
+    public static class StartupExtensions
+    {
+        public static void AddQueries(this IServiceCollection services)
+        {
+            services.AddSingleton<IDogOperation, DogOperation>();
+            //services.AddSingleton<IDogOperation, DogBreedListOperation>();
+
+            services.AddSingleton<ICatOperation, CatSayOperation>();
         }
     }
 }
