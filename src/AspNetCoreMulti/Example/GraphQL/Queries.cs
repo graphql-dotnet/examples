@@ -1,27 +1,10 @@
 using GraphQL.Types;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace Example.GraphQL
 {
     public class Queries
     {
-        //public class DogQuery : ObjectGraphType<object>
-        //{
-        //    public DogQuery()
-        //    {
-        //        Field<StringGraphType>("say", resolve: context => "woof woof woof");
-        //    }
-        //}
-
-        //public class CatQuery : ObjectGraphType<object>
-        //{
-        //    public CatQuery()
-        //    {
-        //        Field<StringGraphType>("say", resolve: context => "meow meow meow");
-        //    }
-        //}
-
         public class DogQuery : ObjectGraphType<object>
         {
             public DogQuery(IEnumerable<IDogOperation> dogOperations)

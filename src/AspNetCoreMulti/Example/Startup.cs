@@ -22,7 +22,7 @@ namespace Example
             services.AddScoped<DogImageDetailsRepository>();
             services.AddScoped<CatRepository>();
 
-            services.AddQueries();
+            services.AddOperations();
 
             services.AddGraphQL(b => b
                 .AddHttpMiddleware<DogSchema>()
@@ -57,11 +57,9 @@ namespace Example
 
     public static class StartupExtensions
     {
-        public static void AddQueries(this IServiceCollection services)
+        public static void AddOperations(this IServiceCollection services)
         {
             services.AddSingleton<IDogOperation, DogOperation>();
-            //services.AddSingleton<IDogOperation, DogBreedListOperation>();
-
             services.AddSingleton<ICatOperation, CatSayOperation>();
         }
     }
