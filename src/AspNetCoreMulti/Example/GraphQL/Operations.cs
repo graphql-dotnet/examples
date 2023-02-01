@@ -1,21 +1,23 @@
 using Example.Repositories;
+using GraphQL.Resolvers;
 using GraphQL.Types;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
+using System.Security.AccessControl;
 
 namespace Example.GraphQL
 {
     public interface IOperation
     {
-        IEnumerable<IFieldType> RegisterFields();
+        IEnumerable<IFieldType> GetFields();
     }
 
     public interface IDogOperation : IOperation { }
 
     public interface ICatOperation : IOperation { }
 
-    public class DogOperation : ObjectGraphType<object>, IDogOperation
+    public class DogOperation : IDogOperation
     {
         private readonly IServiceProvider _serviceProvider;
 
@@ -24,46 +26,68 @@ namespace Example.GraphQL
             _serviceProvider = serviceProvider;
         }
 
-        public IEnumerable<IFieldType> RegisterFields()
+        public IEnumerable<IFieldType> GetFields()
         {
-            var fields = new List<IFieldType>
+            var fields = new List<IFieldType>();
+
+            var sayField = new FieldType
             {
-                Field<StringGraphType>("say", resolve: context => "woof woof woof"),
-                GetBreedListField(),
-                GetImageDetailsField()
+                Name = "say",
+                Type = typeof(StringGraphType),
+                Resolver = new FuncFieldResolver<object, object>(context => "woof woof woof")
             };
+
+            fields.Add(sayField);
+
+            var breedListField = new FieldType
+            {
+                Name = "dogBreeds",
+                Type = typeof(NonNullGraphType<ListGraphType<NonNullGraphType<DogType>>>),
+                Resolver = new FuncFieldResolver<object, object>(context =>
+                {
+                    using var scope = _serviceProvider.CreateScope();
+                    var dogRepository = scope.ServiceProvider.GetRequiredService<DogRepository>();
+                    var dogs = dogRepository.GetDogs();
+                    return dogs;
+                })
+            };
+
+            fields.Add(breedListField);
+
+            var imageDetailsField = new FieldType
+            {
+                Name = "dogImageDetails",
+                Type = typeof(NonNullGraphType<ImageDetailsType>),
+                Resolver = new FuncFieldResolver<object, object>(async context =>
+                {
+                    using var scope = _serviceProvider.CreateScope();
+                    var imageDetailsRepository = scope.ServiceProvider.GetRequiredService<DogImageDetailsRepository>();
+                    var imageDetails = await imageDetailsRepository.GetDogImageDetails();
+                    return imageDetails;
+                })
+            };
+
+            fields.Add(imageDetailsField);
 
             return fields;
         }
-
-        private IFieldType GetBreedListField()
-        {
-            return Field<NonNullGraphType<ListGraphType<NonNullGraphType<DogType>>>>("dogBreeds", resolve: context =>
-            {
-                using var scope = _serviceProvider.CreateScope();
-                var dogRepository = scope.ServiceProvider.GetRequiredService<DogRepository>();
-                var dogs = dogRepository.GetDogs();
-                return dogs;
-            });
-        }
-
-        private IFieldType GetImageDetailsField()
-        {
-            return FieldAsync<NonNullGraphType<ImageDetailsType>>("dogImageDetails", resolve: async context =>
-            {
-                using var scope = _serviceProvider.CreateScope();
-                var imageDetailsRepository = scope.ServiceProvider.GetRequiredService<DogImageDetailsRepository>();
-                var imageDetails = await imageDetailsRepository.GetDogImageDetails();
-                return imageDetails;
-            });
-        }
     }
 
-    public class CatSayOperation : ObjectGraphType<object>, ICatOperation
+    public class CatSayOperation : ICatOperation
     {
-        public IEnumerable<IFieldType> RegisterFields()
+        public IEnumerable<IFieldType> GetFields()
         {
-            return new List<IFieldType> { Field<StringGraphType>("say", resolve: context => "meow meow meow") };
+            var fields = new List<IFieldType>();
+            var sayField = new FieldType
+            {
+                Name = "say",
+                Type = typeof(StringGraphType),
+                Resolver = new FuncFieldResolver<object, object>(context => "meow meow meow")
+            };
+
+            fields.Add(sayField);
+
+            return fields;
         }
     }
 }

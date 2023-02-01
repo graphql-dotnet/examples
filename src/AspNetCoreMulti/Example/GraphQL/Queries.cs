@@ -9,10 +9,10 @@ namespace Example.GraphQL
         {
             public DogQuery(IEnumerable<IDogOperation> dogOperations)
             {
-                foreach(var dogOperation in dogOperations)
+                foreach (var dogOperation in dogOperations)
                 {
-                    var fields = dogOperation.RegisterFields();
-                    foreach(var field in fields)
+                    var fields = dogOperation.GetFields();
+                    foreach (var field in fields)
                     {
                         AddField((FieldType)field);
                     }
@@ -24,9 +24,9 @@ namespace Example.GraphQL
         {
             public CatQuery(IEnumerable<ICatOperation> catOperations)
             {
-                foreach(var catOperation in catOperations)
+                foreach (var catOperation in catOperations)
                 {
-                    var fields = catOperation.RegisterFields();
+                    var fields = catOperation.GetFields();
                     foreach (var field in fields)
                     {
                         AddField((FieldType)field);

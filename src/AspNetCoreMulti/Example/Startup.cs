@@ -5,7 +5,6 @@ using GraphQL.MicrosoftDI;
 using GraphQL.Server;
 using GraphQL.Server.Ui.Playground;
 using GraphQL.SystemTextJson;
-using GraphQL.Types;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,7 +21,8 @@ namespace Example
             services.AddScoped<DogImageDetailsRepository>();
             services.AddScoped<CatRepository>();
 
-            services.AddOperations();
+            services.AddSingleton<IDogOperation, DogOperation>();
+            services.AddSingleton<ICatOperation, CatSayOperation>();
 
             services.AddGraphQL(b => b
                 .AddHttpMiddleware<DogSchema>()
@@ -52,15 +52,6 @@ namespace Example
 
             app.UseGraphQLPlayground(new PlaygroundOptions { GraphQLEndPoint = "/api/dogs" }, "/ui/dogs");
             app.UseGraphQLPlayground(new PlaygroundOptions { GraphQLEndPoint = "/api/cats" }, "/ui/cats");
-        }        
-    }
-
-    public static class StartupExtensions
-    {
-        public static void AddOperations(this IServiceCollection services)
-        {
-            services.AddSingleton<IDogOperation, DogOperation>();
-            services.AddSingleton<ICatOperation, CatSayOperation>();
         }
     }
 }
