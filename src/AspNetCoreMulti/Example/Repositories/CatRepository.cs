@@ -1,17 +1,16 @@
+namespace Example.Repositories;
+
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Example.Repositories
+public class CatRepository
 {
-    public class CatRepository
-    {
-        private static readonly List<Cat> Cats = new()
+    private static readonly List<Cat> Cats = new()
         {
-            new Cat{ Breed = "Abyssinian" },
-            new Cat{ Breed = "American Bobtail" },
-            new Cat{ Breed = "Burmese" }
+            new Cat { Breed = "Abyssinian" },
+            new Cat { Breed = "American Bobtail" },
+            new Cat { Breed = "Burmese" }
         };
 
-        public IEnumerable<Cat> GetCats() => Cats.AsEnumerable();
-    }
+    public IEnumerable<Cat> GetCats() => Cats.AsEnumerable();
 }

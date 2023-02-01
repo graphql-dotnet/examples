@@ -1,23 +1,22 @@
+namespace Example.Repositories;
+
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace Example.Repositories
+public class DogImageDetailsRepository
 {
-    public class DogImageDetailsRepository
+    private readonly IHttpClientFactory _httpClientFactory;
+
+    public DogImageDetailsRepository(IHttpClientFactory httpClientFactory)
     {
-        private readonly IHttpClientFactory _httpClientFactory;
+        _httpClientFactory = httpClientFactory;
+    }
 
-        public DogImageDetailsRepository(IHttpClientFactory httpClientFactory)
-        {
-            _httpClientFactory = httpClientFactory;
-        }
+    public async Task<ImageDetails> GetDogImageDetails()
+    {
+        var client = _httpClientFactory.CreateClient("DogsApi");
+        var result = await client.GetStringAsync("api/breeds/image/random");
 
-        public async Task<ImageDetails> GetDogImageDetails()
-        {
-            var client = _httpClientFactory.CreateClient("DogsApi");
-            var result = await client.GetStringAsync("api/breeds/image/random");
-
-            return new ImageDetails { Url = result };
-        }
+        return new ImageDetails { Url = result };
     }
 }
