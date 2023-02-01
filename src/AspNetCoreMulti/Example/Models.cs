@@ -1,11 +1,16 @@
 namespace Example
 {
-    public class Dog
+    public interface IBreed
     {
         public string Breed { get; set; }
     }
 
-    public class Cat
+    public class Dog : IBreed
+    {
+        public string Breed { get; set; }
+    }
+
+    public class Cat : IBreed
     {
         public string Breed { get; set; }
     }
