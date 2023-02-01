@@ -37,10 +37,7 @@ namespace Example
             services.AddLogging(builder => builder.AddConsole());
             services.AddHttpContextAccessor();
             services.AddControllersWithViews()
-                .AddJsonOptions(opts =>
-                {
-                    opts.JsonSerializerOptions.Converters.Add(new InputsJsonConverter());
-                });
+                .AddJsonOptions(opts => opts.JsonSerializerOptions.Converters.Add(new InputsJsonConverter()));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

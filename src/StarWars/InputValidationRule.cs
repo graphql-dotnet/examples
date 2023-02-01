@@ -1,6 +1,6 @@
+using System.Threading.Tasks;
 using GraphQL.Validation;
 using GraphQLParser.AST;
-using System.Threading.Tasks;
 
 namespace StarWars
 {
