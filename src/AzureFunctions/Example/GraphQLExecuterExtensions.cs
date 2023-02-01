@@ -2,15 +2,15 @@
 // MIT License, taken from https://github.com/tpeczek/Demo.Azure.Functions.GraphQL/blob/master/Demo.Azure.Functions.GraphQL/Infrastructure/GraphQLExecuterExtensions.cs
 // </copyright>
 // <author>https://github.com/tpeczek</author>
+using System.Diagnostics;
+using System.IO;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
 using GraphQL;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System.Diagnostics;
-using System.IO;
-using System.Net.Http.Headers;
-using System.Threading.Tasks;
 
 namespace Example
 {
@@ -24,7 +24,7 @@ namespace Example
         private const string GRAPHQL_MEDIA_TYPE = "application/graphql";
         private const string FORM_URLENCODED_MEDIA_TYPE = "application/x-www-form-urlencoded";
 
-        public async static Task<ExecutionResult> ExecuteAsync(this IDocumentExecuter documentExecuter, HttpRequest request, ILogger logger)
+        public static async Task<ExecutionResult> ExecuteAsync(this IDocumentExecuter documentExecuter, HttpRequest request, ILogger logger)
         {
             string? operationName = null;
             string query;
@@ -87,10 +87,10 @@ namespace Example
             );
         }
 
-        private async static Task<(string? operationName, string query, Inputs variables)> ExtractGraphQLAttributesFromJsonBodyAsync(HttpRequest request)
+        private static async Task<(string? operationName, string query, Inputs variables)> ExtractGraphQLAttributesFromJsonBodyAsync(HttpRequest request)
         {
-            using StreamReader bodyReader = new StreamReader(request.Body);
-            using JsonTextReader bodyJsonReader = new JsonTextReader(bodyReader);
+            using var bodyReader = new StreamReader(request.Body);
+            using var bodyJsonReader = new JsonTextReader(bodyReader);
             JObject bodyJson = await JObject.LoadAsync(bodyJsonReader);
 
             return (
@@ -102,11 +102,11 @@ namespace Example
 
         private static Task<string> ExtractGraphQLQueryFromGraphQLBodyAsync(Stream body)
         {
-            using StreamReader bodyReader = new StreamReader(body);
+            using var bodyReader = new StreamReader(body);
             return bodyReader.ReadToEndAsync();
         }
 
-        private async static Task<(string? operationName, string query, Inputs variables)> ExtractGraphQLAttributesFromFormCollectionAsync(HttpRequest request)
+        private static async Task<(string? operationName, string query, Inputs variables)> ExtractGraphQLAttributesFromFormCollectionAsync(HttpRequest request)
         {
             IFormCollection requestFormCollection = await request.ReadFormAsync();
 

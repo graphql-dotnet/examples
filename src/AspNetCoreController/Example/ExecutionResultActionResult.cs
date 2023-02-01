@@ -1,8 +1,8 @@
+using System.Net;
+using System.Threading.Tasks;
 using GraphQL;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
-using System.Net;
-using System.Threading.Tasks;
 
 namespace Example
 {

@@ -1,6 +1,6 @@
+using System;
 using GraphQL.Instrumentation;
 using GraphQL.Types;
-using System;
 
 namespace StarWars
 {

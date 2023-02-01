@@ -1,23 +1,21 @@
+using System;
+using System.Collections.Generic;
 using GraphQL;
 using GraphQL.Caching;
 using GraphQL.DI;
 using GraphQL.Execution;
 using GraphQL.MicrosoftDI;
-using GraphQL.Types;
 using GraphQL.Validation;
 using GraphQL.Validation.Complexity;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using StarWars;
-using StarWars.Types;
-using System;
-using System.Collections.Generic;
 
 [assembly: FunctionsStartup(typeof(Example.Startup))]
 
 namespace Example
 {
-    class Startup : FunctionsStartup
+    internal class Startup : FunctionsStartup
     {
         public override void Configure(IFunctionsHostBuilder builder)
         {

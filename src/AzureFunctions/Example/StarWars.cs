@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using GraphQL;
 using GraphQL.Types;
 using Microsoft.AspNetCore.Http;
@@ -5,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
-using System.Threading.Tasks;
 
 namespace Example
 {
@@ -15,7 +15,7 @@ namespace Example
 
         public StarWars(IDocumentExecuter<ISchema> graphQLExecuter)
         {
-            this.documentExecuter = graphQLExecuter;
+            documentExecuter = graphQLExecuter;
         }
 
         [FunctionName("graphql")]
