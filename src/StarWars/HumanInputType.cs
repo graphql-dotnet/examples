@@ -1,15 +1,14 @@
 using GraphQL.Types;
 using StarWars.Types;
 
-namespace StarWars
+namespace StarWars;
+
+public class HumanInputType : InputObjectGraphType<Human>
 {
-    public class HumanInputType : InputObjectGraphType<Human>
+    public HumanInputType()
     {
-        public HumanInputType()
-        {
-            Name = "HumanInput";
-            Field(x => x.Name);
-            Field(x => x.HomePlanet, nullable: true);
-        }
+        Name = "HumanInput";
+        Field(x => x.Name);
+        Field(x => x.HomePlanet, nullable: true);
     }
 }
