@@ -26,7 +26,7 @@ namespace Example.Controllers
         }
 
         [HttpPost("graphql")]
-        public async Task<IActionResult> GraphQL([FromBody] GraphQLRequest request)
+        public async Task<IActionResult> GraphQLAsync([FromBody] GraphQLRequest request)
         {
             var startTime = DateTime.UtcNow;
 
