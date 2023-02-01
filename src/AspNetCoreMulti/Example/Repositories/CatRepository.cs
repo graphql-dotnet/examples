@@ -13,4 +13,17 @@ public class CatRepository
         };
 
     public IEnumerable<Cat> GetCats() => Cats.AsEnumerable();
+
+    public Cat UpdateCatBreedName(string oldName, string newName)
+    {
+        var match = Cats.FirstOrDefault(x => x.Breed == oldName);
+        if (match == null)
+        {
+            throw new System.Exception("Cannot find that cat !");
+        }
+
+        match.Breed = newName;
+
+        return match;
+    }
 }

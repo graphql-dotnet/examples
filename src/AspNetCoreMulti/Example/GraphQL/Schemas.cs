@@ -1,12 +1,11 @@
 using GraphQL.Types;
 using System;
-using static Example.GraphQL.Queries;
 
 namespace Example.GraphQL
 {
     public class DogSchema : Schema
     {
-        public DogSchema(IServiceProvider provider, DogQuery query)
+        public DogSchema(IServiceProvider provider, DogRootQuery query)
             : base(provider)
         {
             Query = query;
@@ -15,10 +14,11 @@ namespace Example.GraphQL
 
     public class CatSchema : Schema
     {
-        public CatSchema(IServiceProvider provider, CatQuery query)
+        public CatSchema(IServiceProvider provider, CatRootQuery query, CatRootMutation mutation)
             : base(provider)
         {
             Query = query;
+            Mutation = mutation;
         }
     }
 }

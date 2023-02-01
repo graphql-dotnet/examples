@@ -21,8 +21,8 @@ namespace Example
             services.AddScoped<DogImageDetailsRepository>();
             services.AddScoped<CatRepository>();
 
-            services.AddSingleton<IDogOperation, DogOperation>();
-            services.AddSingleton<ICatOperation, CatSayOperation>();
+            services.AddSingleton<IDogQuery, DogQuery>();
+            services.AddSingleton<ICatQuery, CatQuery>();
 
             services.AddGraphQL(b => b
                 .AddHttpMiddleware<DogSchema>()
