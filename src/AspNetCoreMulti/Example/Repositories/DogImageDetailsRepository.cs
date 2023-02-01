@@ -27,7 +27,6 @@ public class DogImageDetailsRepository
         }
         catch (Exception ex)
         {
-
             return new ImageDetails { Url = ex.Message };
         }
     }
