@@ -38,10 +38,7 @@ namespace Example
 
             services.AddLogging(builder => builder.AddConsole());
             services.AddHttpContextAccessor();
-            services.AddHttpClient("DogsApi", x =>
-            {
-                x.BaseAddress = new System.Uri("https://dog.ceo/");
-            });
+            services.AddHttpClient("DogsApi", x => x.BaseAddress = new System.Uri("https://dog.ceo/"));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

@@ -1,28 +1,27 @@
 using GraphQL.Types;
 
-namespace Example.GraphQL
+namespace Example.GraphQL;
+
+public class DogType : ObjectGraphType<Dog>
 {
-    public class DogType : ObjectGraphType<Dog>
+    public DogType()
     {
-        public DogType()
-        {
-            Field(x => x.Breed);
-        }
+        Field(x => x.Breed);
     }
+}
 
-    public class CatType : ObjectGraphType<Cat>
+public class CatType : ObjectGraphType<Cat>
+{
+    public CatType()
     {
-        public CatType()
-        {
-            Field(x => x.Breed);
-        }
+        Field(x => x.Breed);
     }
+}
 
-    public class ImageDetailsType : ObjectGraphType<ImageDetails>
+public class ImageDetailsType : ObjectGraphType<ImageDetails>
+{
+    public ImageDetailsType()
     {
-        public ImageDetailsType()
-        {
-            Field(x => x.Url);
-        }
+        Field(x => x.Url);
     }
 }

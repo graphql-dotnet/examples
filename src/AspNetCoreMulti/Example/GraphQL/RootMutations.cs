@@ -1,16 +1,15 @@
 using GraphQL.Types;
 using System.Collections.Generic;
 
-namespace Example.GraphQL
+namespace Example.GraphQL;
+
+public class CatRootMutation : ObjectGraphType
 {
-    public class CatRootMutation : ObjectGraphType
+    public CatRootMutation(IEnumerable<ICatMutation> mutations)
     {
-        public CatRootMutation(IEnumerable<ICatMutation> mutations)
+        foreach (var mutation in mutations)
         {
-            foreach (var mutation in mutations)
-            {
-                mutation.AddMutationFields(this);
-            }
+            mutation.AddMutationFields(this);
         }
     }
 }
