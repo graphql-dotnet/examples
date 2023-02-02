@@ -14,8 +14,6 @@ namespace Example.GraphQL
 
     public interface ICatQuery : IQueryFieldsProvider { }
 
-    public interface ICatMutation : IMutationFieldsProvider { }
-
     public class DogQuery : IDogQuery
     {
         private readonly IServiceProvider _serviceProvider;

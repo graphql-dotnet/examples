@@ -11,6 +11,8 @@ public interface IMutationFieldsProvider
     void AddMutationFields(ObjectGraphType objectGraph);
 }
 
+public interface ICatMutation : IMutationFieldsProvider { }
+
 public class CatBreedUpdateMutation : ICatMutation
 {
     private readonly IServiceProvider _serviceProvider;
