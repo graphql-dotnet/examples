@@ -1,4 +1,3 @@
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,6 +7,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace Client
 {
@@ -16,7 +16,7 @@ namespace Client
         /// <summary>
         /// Program entry point with wire-up for Ctrl-C handler and exception handling.
         /// </summary>
-        static async Task Main(string[] args)
+        private static async Task Main(string[] args)
         {
             try
             {
@@ -54,7 +54,7 @@ namespace Client
         /// <summary>
         /// Sample method which calls a GraphQL endpoint.
         /// </summary>
-        static async Task Main2(CancellationToken cancellationToken)
+        private static async Task Main2(CancellationToken cancellationToken)
         {
             Console.WriteLine("Searching for city 'detroit' (press Ctrl-C to cancel)...");
 
@@ -94,12 +94,12 @@ namespace Client
             public string Country { get; set; }
         }
 
-        private static HttpClient httpClient = new HttpClient();
+        private static readonly HttpClient _httpClient = new HttpClient();
 
         /// <summary>
         /// Calls a specified GraphQL endpoint with the specified query and variables.
         /// </summary>
-        static async Task<GraphQLResponse<TResponse>> CallGraphQLAsync<TResponse>(Uri endpoint, HttpMethod method, string query, object variables, CancellationToken cancellationToken)
+        private static async Task<GraphQLResponse<TResponse>> CallGraphQLAsync<TResponse>(Uri endpoint, HttpMethod method, string query, object variables, CancellationToken cancellationToken)
         {
             var content = new StringContent(SerializeGraphQLCall(query, variables), Encoding.UTF8, "application/json");
             var httpRequestMessage = new HttpRequestMessage
@@ -110,7 +110,7 @@ namespace Client
             };
             //add authorization headers if necessary here
             httpRequestMessage.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            using (var response = await httpClient.SendAsync(httpRequestMessage, cancellationToken).ConfigureAwait(false))
+            using (var response = await _httpClient.SendAsync(httpRequestMessage, cancellationToken).ConfigureAwait(false))
             {
                 //if (response.IsSuccessStatusCode)
                 if (response?.Content.Headers.ContentType?.MediaType == "application/json")

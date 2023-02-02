@@ -1,3 +1,5 @@
+using System;
+using System.Threading.Tasks;
 using GraphQL;
 using GraphQL.Instrumentation;
 using GraphQL.SystemTextJson;
@@ -5,8 +7,6 @@ using GraphQL.Transport;
 using GraphQL.Types;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using System;
-using System.Threading.Tasks;
 
 namespace Example.Controllers
 {
@@ -26,7 +26,7 @@ namespace Example.Controllers
         }
 
         [HttpPost("graphql")]
-        public async Task<IActionResult> GraphQL([FromBody] GraphQLRequest request)
+        public async Task<IActionResult> GraphQLAsync([FromBody] GraphQLRequest request)
         {
             var startTime = DateTime.UtcNow;
 
