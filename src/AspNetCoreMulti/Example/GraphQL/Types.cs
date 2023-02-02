@@ -10,7 +10,7 @@ namespace Example.GraphQL
         }
     }
 
-    public class CatType : ObjectGraphType<Dog>
+    public class CatType : ObjectGraphType<Cat>
     {
         public CatType()
         {

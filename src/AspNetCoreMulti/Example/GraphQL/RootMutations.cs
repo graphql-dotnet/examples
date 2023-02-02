@@ -7,7 +7,7 @@ namespace Example.GraphQL
     {
         public CatRootMutation(IEnumerable<ICatMutation> mutations)
         {
-            foreach(var mutation in mutations)
+            foreach (var mutation in mutations)
             {
                 mutation.AddMutationFields(this);
             }

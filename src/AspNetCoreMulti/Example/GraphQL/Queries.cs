@@ -1,22 +1,13 @@
 using Example.Repositories;
-using GraphQL;
-using GraphQL.Resolvers;
 using GraphQL.Types;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Collections.Generic;
-using System.Security.AccessControl;
 
 namespace Example.GraphQL
 {
     public interface IQueryFieldsProvider
     {
         void AddQueryFields(ObjectGraphType objectGraph);
-    }
-
-    public interface IMutationFieldsProvider
-    {
-        void AddMutationFields(ObjectGraphType objectGraph);
     }
 
     public interface IDogQuery : IQueryFieldsProvider { }
@@ -71,38 +62,23 @@ namespace Example.GraphQL
 
     public class CatQuery : ICatQuery
     {
-        public void AddQueryFields(ObjectGraphType objectGraph)
-        {
-            objectGraph.Field<StringGraphType>("say", resolve: context => "meow meow meow");
-        }
-    }
-
-    public class CatBreedUpdateMutation : ICatMutation
-    {
         private readonly IServiceProvider _serviceProvider;
 
-        public CatBreedUpdateMutation(IServiceProvider serviceProvider)
+        public CatQuery(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
         }
 
-        public void AddMutationFields(ObjectGraphType objectGraph)
+        public void AddQueryFields(ObjectGraphType objectGraph)
         {
-            var args = new QueryArguments
-            {
-                new QueryArgument<StringGraphType> { Name = "breedName" },
-                new QueryArgument<StringGraphType> { Name = "newBreedName" }
-            };
+            objectGraph.Field<StringGraphType>("say", resolve: context => "meow meow meow");
 
-            objectGraph.Field<CatType>("updateCatBreed", arguments: args, resolve: context =>
+            objectGraph.Field<NonNullGraphType<ListGraphType<NonNullGraphType<CatType>>>>("catBreeds", resolve: context =>
             {
-                var breed = context.GetArgument<string>("breedName");
-                var newBreed = context.GetArgument<string>("newBreedName");
                 using var scope = _serviceProvider.CreateScope();
                 var catRepository = scope.ServiceProvider.GetRequiredService<CatRepository>();
-                var result = catRepository.UpdateCatBreedName(breed, newBreed);
-
-                return result;
+                var cats = catRepository.GetCats();
+                return cats;
             });
         }
     }
