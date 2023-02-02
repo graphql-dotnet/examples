@@ -1,8 +1,8 @@
+using System;
 using Example.Repositories;
 using GraphQL;
 using GraphQL.Types;
 using Microsoft.Extensions.DependencyInjection;
-using System;
 
 namespace Example.GraphQL;
 
