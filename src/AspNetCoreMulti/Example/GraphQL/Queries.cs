@@ -52,7 +52,7 @@ public class DogImageDetailsQuery : IDogQuery
         {
             using var scope = _serviceProvider.CreateScope();
             var imageDetailsRepository = scope.ServiceProvider.GetRequiredService<DogImageDetailsRepository>();
-            var imageDetails = await imageDetailsRepository.GetDogImageDetails();
+            var imageDetails = await imageDetailsRepository.GetDogImageDetailsAsync();
             return imageDetails;
         });
     }

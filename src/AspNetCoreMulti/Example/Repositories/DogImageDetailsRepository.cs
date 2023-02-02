@@ -1,11 +1,10 @@
-namespace Example.Repositories;
-
 using System;
 using System.Net.Http;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
+namespace Example.Repositories;
 public class DogImageDetailsRepository
 {
     private readonly IHttpClientFactory _httpClientFactory;
@@ -15,7 +14,7 @@ public class DogImageDetailsRepository
         _httpClientFactory = httpClientFactory;
     }
 
-    public async Task<ImageDetails> GetDogImageDetails()
+    public async Task<ImageDetails> GetDogImageDetailsAsync()
     {
         try
         {

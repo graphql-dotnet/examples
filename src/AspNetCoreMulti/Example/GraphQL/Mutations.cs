@@ -25,10 +25,10 @@ public class CatBreedUpdateMutation : ICatMutation
     public void AddMutationFields(ObjectGraphType objectGraph)
     {
         var args = new QueryArguments
-            {
-                new QueryArgument<StringGraphType> { Name = "breedName" },
-                new QueryArgument<StringGraphType> { Name = "newBreedName" }
-            };
+        {
+            new QueryArgument<StringGraphType> { Name = "breedName" },
+            new QueryArgument<StringGraphType> { Name = "newBreedName" }
+        };
 
         objectGraph.Field<CatType>("updateCatBreed", arguments: args, resolve: context =>
         {
