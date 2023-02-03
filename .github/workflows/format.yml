@@ -2,6 +2,9 @@ name: Check formatting
 
 on:
   pull_request:
+  push:
+    branches:
+      - master
 
 env:
   DOTNET_NOLOGO: true
